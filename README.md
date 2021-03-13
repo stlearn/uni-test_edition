@@ -1,19 +1,12 @@
 # uni-test_edition
-
+uniapp项目
 ## Project setup
 ```
 npm install
 ```
+## Run
+```
+npm run dev:%platform%
+```
++ %platform%可取值参见uniapp文档
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
