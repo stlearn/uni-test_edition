@@ -3,7 +3,14 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "UNI-TEST_EDITION",
+				"navigationBarTitleText": "主页",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/mine/mine",
+			"style": {
+				"navigationBarTitleText": "我的",
 				"enablePullDownRefresh": true
 			}
 		}
@@ -11,6 +18,23 @@
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "UNI-TEST_EDITION",
-		"navigationBarBackgroundColor": "#000"
+		"navigationBarBackgroundColor":"#6482E3"
+	},
+	"tabBar": {
+		"color": "#7A7E83",
+		"selectedColor": "#3cc51f",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"list": [{
+			"pagePath": "pages/index/index",
+			"iconPath": "static/images/index.png",
+			"selectedIconPath": "static/images/index_.png",
+			"text": "主页"
+		}, {
+			"pagePath": "pages/mine/mine",
+			"iconPath": "static/images/mine.png",
+			"selectedIconPath": "static/images/mine_.png",
+			"text": "我的"
+		}]
 	}
 }
