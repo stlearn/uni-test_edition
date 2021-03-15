@@ -8,7 +8,8 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+@import "uview-ui/index.scss";
 /*全局css */
 /* 引入vant样式 */
 </style>
