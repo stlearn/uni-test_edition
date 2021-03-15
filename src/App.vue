@@ -10,6 +10,8 @@ export default {
 
 <style lang="scss">
 @import "uview-ui/index.scss";
+@import "./uni.scss";
+$color: #6482e3;
 /*全局css */
 /* 引入vant样式 */
 </style>

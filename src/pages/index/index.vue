@@ -69,7 +69,7 @@ export default {
 .test {
   height: 10vh;
   width: 750rpx;
-  background: #7cc0f2;
+  background: #6482e3;
   font-size: 50px;
   text-align: center;
   color: red;
