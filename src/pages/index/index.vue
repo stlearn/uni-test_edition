@@ -1,11 +1,15 @@
 <template>
   <view>
     <view class="test"></view>
-    <button class="buttun"  key="+" @click="increment"></button>
-    <!-- write code here -->
-    <view class="font">{{ id }}</view>
+    <button class="buttun" key="+" @click="increment"></button>
 
     <button class="buttun" @click="decrement"></button>
+    <view class="font">{{ id }}</view>
+    <input
+      v-model="message"
+      placeholder="请输入"
+      placeholder-class="input-placeholder"
+    />
     <view class="test"></view>
     <!-- <view class="map"
       ><map
@@ -27,14 +31,27 @@ export default {
   data() {
     return {
       news: [],
+      localMessage: "",
     };
   },
   computed: {
-    ...mapState(["id", "name"]),
-    ...mapGetters(["getOld", "getOldThan"]),
+    message: {
+      get() {
+        return this.$store.state.test.message;
+      },
+      set(value) {
+        this.$store.commit("test/setMessage", value);
+      },
+    },
+    ...mapState({
+      //message: (state) => state.test.message,
+      id: (state) => state.test.id,
+      name: (state) => state.test.name,
+    }),
+    ...mapGetters("test", ["getOld", "getOldThan"]),
   },
   methods: {
-    ...mapMutations(["increment", "decrement"]),
+    ...mapMutations("test", ["increment", "decrement", "setMessage"]),
   },
   onLoad: function () {
     // uni.request({
@@ -52,6 +69,7 @@ export default {
   },
   onPullDownRefresh: function () {
     console.log("顶部");
+    console.log(this.message);
   },
 };
 </script>
