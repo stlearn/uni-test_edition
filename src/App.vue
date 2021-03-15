@@ -1,7 +1,14 @@
 <script>
-export default {};
+export default {
+  //全局数据和方法
+  //获取方式：getApp().globalData.appname
+  globalData: {
+    appname: "test",
+  },
+};
 </script>
 
 <style>
-/*每个页面公共css */
+/*全局css */
+/* 引入vant样式 */
 </style>

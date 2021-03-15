@@ -1,15 +1,7 @@
 <template>
   <view>
     <view class="test"></view>
-    <button class="buttun" key="+" @click="increment"></button>
 
-    <button class="buttun" @click="decrement"></button>
-    <view class="font">{{ id }}</view>
-    <input
-      v-model="message"
-      placeholder="请输入"
-      placeholder-class="input-placeholder"
-    />
     <view class="test"></view>
     <!-- <view class="map"
       ><map
@@ -69,7 +61,6 @@ export default {
   },
   onPullDownRefresh: function () {
     console.log("顶部");
-    console.log(this.message);
   },
 };
 </script>

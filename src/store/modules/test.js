@@ -1,7 +1,6 @@
-
-
-
-
+/***
+ * vuex module测试模块文件
+ */
 const state = ()=>({
     id:0,
     name:"高云飞",

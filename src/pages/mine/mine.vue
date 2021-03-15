@@ -1,8 +1,7 @@
 <template lang="">
-    <div>
-        {{id}}
-        {{message}}
-    </div>
+<view>
+  <uni-calendar @change="" />
+</view>
 </template>
 <script>
 import { mapState } from "vuex";
@@ -15,5 +14,5 @@ export default {
   },
 };
 </script>
-<style lang="">
+<style>
 </style>
