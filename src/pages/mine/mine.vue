@@ -1,7 +1,7 @@
 <template lang="">
-<view class="container">
+<view>
   <user/>
-  <view class="text">
+  <!-- <view class="text">
     <navigator
       url="/pages/login/login"
       open-type="navigate"
@@ -9,7 +9,7 @@
     >
     登录页面
     </navigator>
-  </view>
+  </view> -->
 </view>
 </template>
 <script>
@@ -32,24 +32,4 @@ export default {
 };
 </script>
 <style>
-.container {
-  width: 750rpx;
-}
-.avator {
-  width: 750rpx;
-  height: 200rpx;
-  text-align: center;
-  margin-top: 25vh;
-}
-.buttun {
-  margin-top: 10vh;
-  text-align: center;
-}
-.text {
-  margin-top: 5vh;
-  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
-  font-weight: bold;
-  text-align: center;
-  font-size: 20px;
-}
 </style>
