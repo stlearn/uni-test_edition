@@ -1,15 +1,7 @@
 <template lang="">
-<view>
+<view class="contianer">
   <user/>
-  <!-- <view class="text">
-    <navigator
-      url="/pages/login/login"
-      open-type="navigate"
-      hover-class="navigator-hover"
-    >
-    登录页面
-    </navigator>
-  </view> -->
+  <view class="content"> </view>
 </view>
 </template>
 <script>
@@ -32,4 +24,22 @@ export default {
 };
 </script>
 <style>
+.container {
+  width: 750rpx;
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  width: 750rpx;
+  height: 75vh;
+  background-color: #d3daf0;
+  border-radius: 5vh;
+}
+
+.text {
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-size: 20px;
+  font-weight: bolder;
+}
 </style>

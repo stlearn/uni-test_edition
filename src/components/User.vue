@@ -2,43 +2,36 @@
   <view class="container">
     <view class="header">
       <view class="header-item header-item-avator">
-        <u-avatar :src="user.avatar" size="160" @click="logout"></u-avatar>
+        <u-avatar :src="user.avatar" size="160" mode="square"></u-avatar>
       </view>
       <view class="header-item header-item-other">
         <block v-if="logined">
           <text class="text">{{ user.name }}</text>
           <br />
           <u-button
-            type="success"
+            type="error"
             shape="square"
+            @click="logout"
             plain
-            @click="Login()"
             size="mini"
-            >账户管理
+            >退出登录
           </u-button>
         </block>
         <block v-else>
           <text class="text">{{ default_name }}</text>
           <br />
           <u-button
-            type="success"
+            type="primary"
             shape="square"
             plain
             @click="Login()"
-            open-type="getUserInfo"
             size="mini"
             >登录
           </u-button>
         </block>
       </view>
     </view>
-    <!-- <view class="content"> </view> -->
   </view>
-  <!-- <view class="header">
-      
-    </view> -->
-  <!-- <view class="buttun">
-    </view> -->
 </template>
 <script>
 import { mapState, mapGetters, mapMutations } from "vuex";
@@ -46,12 +39,6 @@ export default {
   data() {
     return {
       default_name: "请点击登录",
-      local_user: {
-        id: null,
-        name: "",
-        avatar: "",
-        gender: "",
-      },
     };
   },
   computed: {
@@ -62,41 +49,13 @@ export default {
   },
   methods: {
     ...mapMutations("login", {
-      store_login: "login",
       store_logout: "logout",
     }),
     Login: function () {
-      var that = this;
-
-      //登录状态下点击直接结束，每次点击，打印用户信息
-      // console.log(that.local_user);
-      // console.log("store:");
-      // console.log(that.logined);
-      if (that.logined) {
+      if (this.logined) {
         return;
       }
-      uni.login({
-        provider: "weixin",
-        success: function (loginRes) {
-          // 获取用户信息
-          uni.getUserInfo({
-            provider: "weixin",
-            success: function (infoRes) {
-              that.local_user.name = infoRes.userInfo.nickName;
-              that.local_user.gender = infoRes.userInfo.gender;
-              that.local_user.avatar = infoRes.userInfo.avatarUrl;
-              that.store_login(that.local_user);
-            },
-            fail: function (res) {
-              uni.showToast({
-                title: "获取信息失败",
-                icon: "fail",
-                mask: true,
-              });
-            },
-          });
-        },
-      });
+      uni.navigateTo({ url: "/pages/login/login" });
     },
     logout: function () {
       this.store_logout();
@@ -147,10 +106,6 @@ export default {
   flex-basis: 0;
   flex-grow: 3;
   align-self: center;
-}
-.buttun {
-  margin-top: 10vh;
-  text-align: center;
 }
 .text {
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
