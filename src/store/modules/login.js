@@ -4,13 +4,13 @@
  const state = ()=>({
     logined:false,
     user:{
-        id:null,  //唯一性区分，暂时不用
+        id:"",  //唯一性区分，暂时用openID,后面会使用自己生产的账户
         name:"",   //微信id
         avatar:"",
         gender:""
     },
     default_user:{
-        id:null,
+        id:"",
         name:"",
         avatar:"",
         gender:""

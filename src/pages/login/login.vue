@@ -14,6 +14,7 @@
 </template>
 <script>
 import { mapState, mapGetters, mapMutations } from "vuex";
+import Server from "../../config/config";
 export default {
   data() {
     return {
@@ -38,39 +39,61 @@ export default {
     Login: function () {
       var that = this;
 
+      //已经登录，重复点击直接返回
       if (that.logined) {
         return;
       }
+
       uni.login({
         provider: "weixin",
         success: function (loginRes) {
-          // 获取用户信息
-          uni.getUserInfo({
-            provider: "weixin",
-            success: function (infoRes) {
-              that.local_user.name = infoRes.userInfo.nickName;
-              that.local_user.gender = infoRes.userInfo.gender;
-              that.local_user.avatar = infoRes.userInfo.avatarUrl;
-              that.store_login(that.local_user);
-              uni.showToast({
-                title: "登录中",
-                icon: "loading",
-                mask: true,
-              });
-              uni.set;
-              setTimeout(that.backToMine, 1000);
+          //请求后端返回id
+          uni.request({
+            url: Server.host + "/user/login",
+            data: { code: loginRes.code },
+            header: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+              "X-Requested-With": "XMLHttpRequest",
             },
-            fail: function (res) {
-              uni.showToast({
-                title: "获取信息失败",
-                icon: "loading",
-                mask: true,
+            method: "POST",
+            success: ({ data, statusCode, header }) => {
+              console.log(data);
+              that.local_user.id = data.id;
+              //获取用户信息
+              uni.getUserInfo({
+                provider: "weixin",
+                success: function (infoRes) {
+                  that.local_user.name = infoRes.userInfo.nickName;
+                  that.local_user.gender = infoRes.userInfo.gender;
+                  that.local_user.avatar = infoRes.userInfo.avatarUrl;
+                  console.log(that.local_user);
+                  that.store_login(that.local_user);
+                  uni.showToast({
+                    title: "登录中",
+                    icon: "loading",
+                    mask: true,
+                  });
+                  uni.set;
+                  setTimeout(that.backToMine, 1000);
+                },
+                fail: function (res) {
+                  uni.showToast({
+                    title: "获取信息失败",
+                    icon: "loading",
+                    mask: true,
+                  });
+                },
               });
+            },
+            fail: (error) => {
+              console.log(error);
             },
           });
         },
       });
     },
+    //登录成功回到页面：mine
     backToMine() {
       uni.navigateBack({ delta: 1 });
     },

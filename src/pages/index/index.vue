@@ -3,16 +3,12 @@
     <view class="test"></view>
 
     <view class="test"></view>
-    <!-- <view class="map"
-      ><map
-        enable-3D
-        enable-satellite
-        enable-traffic
-        show-location
-        style="width: 100%; height: 300px"
-      ></map>
-    </view> -->
-    <!-- <view v-for="(i, index) in news" :key="index">{{ i.title }}</view> -->
+    <u-button type="primary" shape="square" plain @click="test_get()"
+      >get测试
+    </u-button>
+    <u-button type="primary" shape="square" plain @click="test_post()"
+      >post测试
+    </u-button>
   </view>
 </template>
 
@@ -44,6 +40,47 @@ export default {
   },
   methods: {
     ...mapMutations("test", ["increment", "decrement", "setMessage"]),
+    test_get: function () {
+      uni.request({
+        url: "http://localhost:3000/public/test",
+        data: { id: 1, name: "mike" },
+        header: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "X-Requested-With": "XMLHttpRequest",
+        },
+        method: "GET",
+        sslVerify: true,
+        success: ({ data, statusCode, header }) => {
+          console.log(data);
+        },
+        fail: (error) => {
+          console.log(error);
+        },
+      });
+    },
+    test_post() {
+      uni.request({
+        url: "http://localhost:3000/user/login",
+        data: {
+          id: 1,
+          name: "mike",
+        },
+        header: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "X-Requested-With": "XMLHttpRequest",
+        },
+        method: "POST",
+        sslVerify: true,
+        success: ({ data, statusCode, header }) => {
+          console.log(data);
+        },
+        fail: (error) => {
+          console.log(error);
+        },
+      });
+    },
   },
   onLoad: function () {
     // uni.request({
