@@ -1,5 +1,5 @@
 /***
- * vuex module测试模块文件
+ * vuex管理登录状态
  */
  const state = ()=>({
     logined:false,

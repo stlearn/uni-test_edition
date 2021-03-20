@@ -47,26 +47,31 @@ export default {
       uni.login({
         provider: "weixin",
         success: function (loginRes) {
-          //请求后端返回id
-          uni.request({
-            url: Server.host + "/user/login",
-            data: { code: loginRes.code },
-            header: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-              "X-Requested-With": "XMLHttpRequest",
-            },
-            method: "POST",
-            success: ({ data, statusCode, header }) => {
-              console.log(data);
-              that.local_user.id = data.id;
-              //获取用户信息
-              uni.getUserInfo({
-                provider: "weixin",
-                success: function (infoRes) {
-                  that.local_user.name = infoRes.userInfo.nickName;
-                  that.local_user.gender = infoRes.userInfo.gender;
-                  that.local_user.avatar = infoRes.userInfo.avatarUrl;
+          //获取用户信息
+          uni.getUserInfo({
+            provider: "weixin",
+            success: function (infoRes) {
+              that.local_user.name = infoRes.userInfo.nickName;
+              that.local_user.gender = infoRes.userInfo.gender;
+              that.local_user.avatar = infoRes.userInfo.avatarUrl;
+              //请求后端返回id
+              uni.request({
+                url: Server.host + "/user/login",
+                data: {
+                  code: loginRes.code,
+                  name: that.local_user.name,
+                  avatar: that.local_user.avatar,
+                  gender: that.local_user.gender,
+                },
+                header: {
+                  Accept: "application/json",
+                  "Content-Type": "application/json",
+                  "X-Requested-With": "XMLHttpRequest",
+                },
+                method: "POST",
+                success: ({ data, statusCode, header }) => {
+                  console.log(data);
+                  that.local_user.id = data.id;
                   console.log(that.local_user);
                   that.store_login(that.local_user);
                   uni.showToast({
@@ -77,7 +82,8 @@ export default {
                   uni.set;
                   setTimeout(that.backToMine, 1000);
                 },
-                fail: function (res) {
+                fail: (error) => {
+                  console.log(error);
                   uni.showToast({
                     title: "获取信息失败",
                     icon: "loading",
@@ -86,8 +92,12 @@ export default {
                 },
               });
             },
-            fail: (error) => {
-              console.log(error);
+            fail: function (res) {
+              uni.showToast({
+                title: "获取信息失败",
+                icon: "loading",
+                mask: true,
+              });
             },
           });
         },
