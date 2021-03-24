@@ -1,35 +1,28 @@
 <template>
-  <view class="container">
-    <view class="header">
-      <view class="header-item header-item-avator">
-        <u-avatar :src="user.avatar" size="160" mode="square"></u-avatar>
-      </view>
-      <view class="header-item header-item-other">
-        <block v-if="logined">
-          <text class="text">{{ user.name }}</text>
-          <br />
-          <u-button
-            type="error"
-            shape="square"
-            @click="logout"
-            plain
-            size="mini"
-            >退出登录
-          </u-button>
-        </block>
-        <block v-else>
-          <text class="text">{{ default_name }}</text>
-          <br />
-          <u-button
-            type="primary"
-            shape="square"
-            plain
-            @click="Login()"
-            size="mini"
-            >登录
-          </u-button>
-        </block>
-      </view>
+  <view class="header">
+    <view class="header-item header-item-avator">
+      <u-avatar :src="user.avatar" size="160" mode="square"></u-avatar>
+    </view>
+    <view class="header-item header-item-other">
+      <block v-if="logined">
+        <text class="text">{{ user.name }}</text>
+        <br />
+        <u-button type="error" shape="square" @click="logout" plain size="mini"
+          >退出登录
+        </u-button>
+      </block>
+      <block v-else>
+        <text class="text">{{ default_name }}</text>
+        <br />
+        <u-button
+          type="primary"
+          shape="square"
+          plain
+          @click="Login()"
+          size="mini"
+          >登录
+        </u-button>
+      </block>
     </view>
   </view>
 </template>
@@ -64,11 +57,6 @@ export default {
 };
 </script>
 <style>
-.container {
-  width: 750rpx;
-  display: flex;
-  flex-direction: column;
-}
 .header {
   width: 750rpx;
   height: 20vh;

@@ -1,30 +1,58 @@
-<template lang="">
-<view class="contianer">
-  <user/>
-  <view class="content-goods"> 
-    <view class="content-goods-title">
-      <text class="text-goods">我的交易</text>
+<template>
+  <view class="contian">
+    <user></user>
+    <view class="content-goods">
+      <view class="content-goods-title">
+        <text class="text-goods">我的交易</text>
+      </view>
+      <view class="line"></view>
+      <view class="content-goods-content">
+        <item
+          src_img="../../static/images/on_sale.png"
+          title="我在卖的"
+          @click.native="navigate('goodsPages/on_sale')"
+        ></item>
+        <item
+          src_img="../../static/images/saled.png"
+          title="我卖出的"
+          @click.native="navigate('goodsPages/saled')"
+        ></item>
+        <item
+          src_img="../../static/images/buyed.png"
+          title="我买到的"
+          @click.native="navigate('goodsPages/buyed')"
+        ></item>
+        <item
+          src_img="../../static/images/favorites.png"
+          title="我收藏的"
+          @click.native="navigate('goodsPages/favorites')"
+        ></item>
+      </view>
     </view>
-    <view class="line"></view>
-    <view class="content-goods-content">
-      <item src_img="../../static/images/on_sale.png" title="我在卖的"></item>
-      <item src_img="../../static/images/saled.png" title="我卖出的"></item>
-      <item src_img="../../static/images/buyed.png" title="我买到的"></item>
-      <item src_img="../../static/images/favorites.png" title="我收藏的"></item>
+    <view class="content-goods">
+      <view class="content-goods-title">
+        <text class="text-goods">我的服务</text>
+      </view>
+      <view class="line"></view>
+      <view class="content-goods-content">
+        <item
+          src_img="../../static/images/service.png"
+          title="我提供的"
+          @click.native="navigate('servicePages/service')"
+        ></item>
+        <item
+          src_img="../../static/images/used.png"
+          title="我用过的"
+          @click.native="navigate('servicePages/used')"
+        ></item>
+        <item
+          src_img="../../static/images/favorites.png"
+          title="我收藏的"
+          @click.native="navigate('servicePages/favorites')"
+        ></item>
+      </view>
     </view>
   </view>
-  <view class="content-goods">
-    <view class="content-goods-title">
-      <text class="text-goods">我的服务</text>
-      </view> 
-    <view class="line"></view>
-    <view class="content-goods-content">
-      <item src_img="../../static/images/service.png" title="我提供的"></item>
-      <item src_img="../../static/images/used.png" title="我用过的"></item>
-      <item src_img="../../static/images/favorites.png" title="我收藏的"></item>
-    </view>
-  </view>
-</view>
 </template>
 <script>
 import { mapState } from "vuex";
@@ -40,16 +68,29 @@ export default {
   },
   computed: {
     ...mapState({
-      id: (state) => state.test.id,
-      message: (state) => state.test.message,
+      logined: (state) => state.login.logined,
+      user: (state) => state.login.user,
     }),
   },
-  methods: {},
+  methods: {
+    navigate: function (str) {
+      if (this.logined) {
+        uni.navigateTo({ url: "/pages/mine/" + str });
+      } else {
+        uni.showToast({
+          title: "请先登录",
+          image: "../../static/images/wrong.png",
+          mask: true,
+        });
+      }
+    },
+  },
 };
 </script>
 <style>
-.container {
+.contain {
   width: 750rpx;
+  height: 100vh;
   display: flex;
   flex-direction: column;
 }

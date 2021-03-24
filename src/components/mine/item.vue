@@ -1,4 +1,4 @@
-<template>
+<template >
   <view class="main">
     <view class="icon" @click="cl">
       <image class="img" :src="src_img" mode="scaleToFill" />

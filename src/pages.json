@@ -25,6 +25,48 @@
 			"style": {
 				"navigationBarTitleText":"登录"
 			}
+		},
+		{
+			"path": "pages/mine/goodsPages/on_sale",
+			"style": {
+				"navigationBarTitleText":"我在卖的"
+			}
+		},
+		{
+			"path": "pages/mine/goodsPages/buyed",
+			"style": {
+				"navigationBarTitleText":"我买到的"
+			}
+		},
+		{
+			"path": "pages/mine/goodsPages/saled",
+			"style": {
+				"navigationBarTitleText":"我卖出的"
+			}
+		},
+		{
+			"path": "pages/mine/goodsPages/favorites",
+			"style": {
+				"navigationBarTitleText":"我收藏的"
+			}
+		},
+		{
+			"path": "pages/mine/servicePages/service",
+			"style": {
+				"navigationBarTitleText":"我提供的"
+			}
+		},
+		{
+			"path": "pages/mine/servicePages/used",
+			"style": {
+				"navigationBarTitleText":"我用过的"
+			}
+		},
+		{
+			"path": "pages/mine/servicePages/favorites",
+			"style": {
+				"navigationBarTitleText":"我收藏的"
+			}
 		}
 	],
 	"globalStyle": {
