@@ -7,13 +7,15 @@
         id:"",  //唯一性区分，暂时用openID,后面会使用自己生产的账户
         name:"",   //微信id
         avatar:"",
-        gender:""
+        gender:"",
+        description:""
     },
     default_user:{
         id:"",
         name:"",
         avatar:"",
-        gender:""
+        gender:"",
+        description:""
     }
 })
 

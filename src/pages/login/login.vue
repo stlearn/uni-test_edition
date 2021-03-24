@@ -23,6 +23,7 @@ export default {
         name: "",
         avatar: "",
         gender: "",
+        description: "",
       },
     };
   },
@@ -72,6 +73,7 @@ export default {
                 success: ({ data, statusCode, header }) => {
                   console.log(data);
                   that.local_user.id = data.id;
+                  that.local_user.description = data.description;
                   console.log(that.local_user);
                   that.store_login(that.local_user);
                   uni.showToast({
