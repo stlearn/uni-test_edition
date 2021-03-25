@@ -1,7 +1,8 @@
 <template>
   <view class="header">
     <view class="header-item header-item-avator">
-      <u-avatar :src="user.avatar" size="160" mode="square"></u-avatar>
+      <!-- mode="square" -->
+      <u-avatar :src="user.avatar" size="140"></u-avatar>
     </view>
     <view class="header-item header-item-other">
       <block v-if="logined">
@@ -60,16 +61,15 @@ export default {
 .header {
   width: 750rpx;
   height: 20vh;
-  background-color: #6482e3;
-  border-bottom-left-radius: 5vh;
-  border-bottom-right-radius: 5vh;
+  background-color: #82b1ff;
+  border-bottom-left-radius: 2vh;
+  border-bottom-right-radius: 2vh;
   display: flex;
   flex-direction: row;
 }
 .content {
   width: 750rpx;
   height: 75vh;
-  background-color: #6482e3;
   border-radius: 5vh;
 }
 
@@ -80,7 +80,6 @@ export default {
 }
 .header-item-avator {
   height: 15vh;
-  background: #6482e3;
   flex-basis: 0;
   flex-grow: 1;
   text-align: center;
@@ -90,7 +89,6 @@ export default {
 }
 .header-item-other {
   height: 15vh;
-  background: #6482e3;
   flex-basis: 0;
   flex-grow: 3;
   align-self: center;

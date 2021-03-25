@@ -1,6 +1,7 @@
 <template>
-  <view class="container"> 我在卖的 </view>
+  <view class="container"> 消息 </view>
 </template>
+
 <script>
 export default {};
 </script>
@@ -9,7 +10,5 @@ export default {};
   width: 750rpx;
   height: 100vh;
   background: #eceff1;
-  display: flex;
-  flex-direction: column;
 }
 </style>

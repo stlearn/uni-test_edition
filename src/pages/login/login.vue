@@ -116,6 +116,7 @@ export default {
 .container {
   width: 750rpx;
   height: 100vh;
+  background: #eceff1;
   display: flex;
   flex-direction: column;
   justify-content: center;

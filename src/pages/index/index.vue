@@ -1,27 +1,49 @@
 <template>
-  <view>
-    <view class="test"></view>
-
-    <view class="test"></view>
-    <u-button type="primary" shape="square" plain @click="test_get()"
-      >get测试
-    </u-button>
-    <u-button type="primary" shape="square" plain @click="test_post()"
-      >post测试
-    </u-button>
+  <view class="container">
+    <view class="header">
+      <view class="header_address">地址▾</view>
+      <view class="header_tabs">
+        <u-tabs
+          :list="list"
+          :is-scroll="false"
+          :current="current"
+          @change="change"
+          font-size="40"
+          bar-height="6"
+          bar-width="60"
+          active-color="#FF4500"
+          inactive-color="#ffffff"
+          bg-color="#82B1FF"
+        ></u-tabs>
+      </view>
+    </view>
+    <rest v-if="current === 0"></rest>
+    <service v-if="current === 1"></service>
   </view>
 </template>
 
 <script>
 import { mapState, mapGetters, mapMutations } from "vuex";
+import rest from "../../components/index/rest";
+import service from "../../components/index/service";
 export default {
-  components: {},
+
+  components: { rest, service },
+
   data() {
     return {
-      news: [],
-      localMessage: "",
+      list: [
+        {
+          name: "闲置",
+        },
+        {
+          name: "服务",
+        },
+      ],
+      current: 0,
     };
   },
+
   computed: {
     message: {
       get() {
@@ -38,93 +60,67 @@ export default {
     }),
     ...mapGetters("test", ["getOld", "getOldThan"]),
   },
+
   methods: {
     ...mapMutations("test", ["increment", "decrement", "setMessage"]),
-    test_get: function () {
-      uni.request({
-        url: "http://localhost:3000/public/test",
-        data: { id: 1, name: "mike" },
-        header: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          "X-Requested-With": "XMLHttpRequest",
-        },
-        method: "GET",
-        sslVerify: true,
-        success: ({ data, statusCode, header }) => {
-          console.log(data);
-        },
-        fail: (error) => {
-          console.log(error);
-        },
-      });
-    },
-    test_post() {
-      uni.request({
-        url: "http://localhost:3000/user/login",
-        data: {
-          id: 1,
-          name: "mike",
-        },
-        header: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          "X-Requested-With": "XMLHttpRequest",
-        },
-        method: "POST",
-        sslVerify: true,
-        success: ({ data, statusCode, header }) => {
-          console.log(data);
-        },
-        fail: (error) => {
-          console.log(error);
-        },
-      });
+    change(index) {
+      this.current = index;
     },
   },
-  onLoad: function () {
-    // uni.request({
-    //   url: "https://unidemo.dcloud.net.cn/api/news",
-    //   method: "GET",
-    //   data: {},
-    //   success: (res) => {
-    //     console.log(res);
-    //     this.news = res.data;
-    //   },
-    // });
-  },
+
   onReachBottom: function () {
     console.log("到底了");
   },
+
   onPullDownRefresh: function () {
     console.log("顶部");
   },
 };
 </script>
 
-<style>
-.test {
-  height: 10vh;
+<!--suppress CssInvalidPropertyValue -->
+<style scoped>
+.container {
   width: 750rpx;
-  background: #6482e3;
-  font-size: 50px;
-  text-align: center;
-  color: red;
+  height: 100vh;
+  background: #eceff1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-.map {
-  width: 750px;
-  height: 80vh;
+.header {
+  width: 750rpx;
+  height: 8vh;
+  background: #82b1ff;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  border-bottom-left-radius: 2vh;
+  border-bottom-right-radius: 2vh;
 }
+.header_address {
+  width: 175rpx;
+  height: 6vh;
+  border-radius: 4vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  color: #ffffff;
+}
+.header_tabs {
+  width: 400rpx;
+}
+
 .font {
   font-size: 140px;
   text-align: center;
   color: #fa001a;
 }
-.buttun {
-  width: 40vw;
-  height: 10vh;
-  background-color: #a8ccf5;
-  margin-bottom: 5vh;
-  margin-top: 5vh;
+.line {
+  width: 730rpx;
+  height: 0.2vh;
+  background-color: #000000;
 }
 </style>

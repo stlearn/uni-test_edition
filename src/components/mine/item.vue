@@ -1,6 +1,6 @@
 <template >
   <view class="main">
-    <view class="icon" @click="cl">
+    <view class="icon">
       <image class="img" :src="src_img" mode="scaleToFill" />
     </view>
     <view class="item-text">{{ title }}</view>
@@ -24,16 +24,17 @@ export default {
   align-items: center;
 }
 .icon {
-  height: 14vw;
-  width: 14vw;
+  height: 8vw;
+  width: 8vw;
 }
 .img {
-  height: 12vw;
-  width: 12vw;
+  height: 8vw;
+  width: 8vw;
 }
 .item-text {
   height: 4vh;
   width: 18vw;
   text-align: center;
+  margin-top: 10rpx;
 }
 </style>

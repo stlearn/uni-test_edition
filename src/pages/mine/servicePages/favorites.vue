@@ -8,7 +8,7 @@ export default {};
 .container {
   width: 750rpx;
   height: 100vh;
-  background: #ffefd5;
+  background: #eceff1;
   display: flex;
   flex-direction: column;
 }

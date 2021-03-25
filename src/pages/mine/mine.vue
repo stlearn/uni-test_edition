@@ -1,11 +1,11 @@
 <template>
-  <view class="contian">
+  <view class="container">
     <user></user>
     <view class="content-goods">
       <view class="content-goods-title">
         <text class="text-goods">我的交易</text>
       </view>
-      <view class="line"></view>
+      <!-- <view class="line"></view> -->
       <view class="content-goods-content">
         <item
           src_img="../../static/images/on_sale.png"
@@ -33,7 +33,7 @@
       <view class="content-goods-title">
         <text class="text-goods">我的服务</text>
       </view>
-      <view class="line"></view>
+      <!-- <view class="line"></view> -->
       <view class="content-goods-content">
         <item
           src_img="../../static/images/service.png"
@@ -74,7 +74,7 @@ export default {
   },
   methods: {
     navigate: function (str) {
-      if (this.logined) {
+      if (!this.logined) {
         uni.navigateTo({ url: "/pages/mine/" + str });
       } else {
         uni.showToast({
@@ -88,9 +88,10 @@ export default {
 };
 </script>
 <style>
-.contain {
+.container {
   width: 750rpx;
   height: 100vh;
+  background: #eceff1;
   display: flex;
   flex-direction: column;
 }
@@ -99,8 +100,8 @@ export default {
   margin-top: 2vh;
   margin-left: 10rpx;
   width: 730rpx;
-  height: 26vh;
-  background-color: #cce7ff;
+  height: 20vh;
+  background-color: #ffffff;
   border-radius: 2vh;
   display: flex;
   flex-direction: column;
@@ -112,7 +113,7 @@ export default {
 }
 .content-goods-content {
   width: 730rpx;
-  height: 20vh;
+  height: 14vh;
   border: #000000;
   border-radius: 2vh;
   display: flex;
