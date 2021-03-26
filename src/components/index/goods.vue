@@ -5,23 +5,23 @@
       <view class="option_choose">
         <u-dropdown title-size="35">
           <u-dropdown-item
-              v-model="options_value"
-              :title="options_value"
-              :options="options"
-              @change="optionChange()"
+            v-model="options_value"
+            :title="options_value"
+            :options="options"
+            @change="optionChange()"
           ></u-dropdown-item>
         </u-dropdown>
       </view>
       <view class="option_search">
         <u-search
-            placeholder="请输入关键词"
-            v-model="search_keyword"
-            :show-action="true"
-            action-text="搜索"
-            :animation="true"
-            maxlength="5"
-            @search="search"
-            @custom="search"
+          placeholder="请输入关键词"
+          v-model="search_keyword"
+          :show-action="true"
+          action-text="搜索"
+          :animation="true"
+          maxlength="5"
+          @search="search"
+          @custom="search"
         ></u-search>
       </view>
     </view>
@@ -47,7 +47,7 @@
             <scroll-view scroll-y style="height: 76vh;width: 100%;" @scrolltolower="onreachBottom">
               <!--物品代码-->
               <wallfall :dis="dis[dis_index].label" :location="options_value"
-                        which="service" :kind="kinds[current].name" :sort="sort_value"></wallfall>
+                        which="goods" :kind="kinds[current].name" :sort="sort_value"></wallfall>
             </scroll-view>
           </swiper-item>
         </swiper>
@@ -64,7 +64,7 @@
             <scroll-view scroll-y style="height: 70vh;width: 100%;" @scrolltolower="onreachBottom">
               <!--物品代码-->
               <wallfall :dis="dis[dis_index].label" :location="options_value"
-                        which="service" :kind="kinds[current].name" :sort="sort_value"></wallfall>
+                        which="goods" :kind="kinds[current].name" :sort="sort_value"></wallfall>
             </scroll-view>
           </swiper-item>
         </swiper>
@@ -123,21 +123,17 @@ export default {
           name: "全部",
         },
         {
-          name: "打扫",
-        },
-        {
-          name:"维修",
-        },
-        {
-          name: "搬家",
-        },
-        {
-          name: "用车",
+          name: "手机",
         },{
-          name: "帮看孩子",
+          name: "服饰",
         },
         {
-          name: "其他",
+          name: "家具",
+        },{
+          name: "日常用品",
+        },
+        {
+          name: "玩具",
         }
       ],
       current: 0, //种类栏

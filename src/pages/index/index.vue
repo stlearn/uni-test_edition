@@ -1,7 +1,7 @@
 <template>
   <view class="container">
     <view class="header">
-      <view class="header_address">地址▾</view>
+      <view class="header_address"><u-icon name="map" color="#ffffff" size="38"></u-icon>地址▾</view>
       <view class="header_tabs">
         <u-tabs
           :list="list"
@@ -11,12 +11,13 @@
           font-size="40"
           bar-height="6"
           bar-width="60"
-          active-color="#FF4500"
+          active-color="#FFEB3B"
           inactive-color="#ffffff"
           bg-color="#82B1FF"
         ></u-tabs>
       </view>
     </view>
+    <!--根据tab栏决定显示哪一个组件-->
     <rest v-if="current === 0"></rest>
     <service v-if="current === 1"></service>
   </view>
@@ -24,7 +25,7 @@
 
 <script>
 import { mapState, mapGetters, mapMutations } from "vuex";
-import rest from "../../components/index/rest";
+import rest from "../../components/index/goods";
 import service from "../../components/index/service";
 export default {
 
@@ -67,11 +68,6 @@ export default {
       this.current = index;
     },
   },
-
-  onReachBottom: function () {
-    console.log("到底了");
-  },
-
   onPullDownRefresh: function () {
     console.log("顶部");
   },
