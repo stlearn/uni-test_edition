@@ -1,10 +1,23 @@
 <template>
   <view>
-    瀑布流<br/>{{which}}---{{location}}---{{dis}}--{{sort}}--{{kind}}
+    <u-waterfall v-model="flowList" ref="uWaterfall">
+      <template v-slot:left="{leftList}">
+        <view class="demo-warter" v-for="(item, index) in leftList" :key="index">
+          <item-card :img="item.image" :title="item.title" :owner="item.owner" :avatar="item.avatar" :price="item.price"></item-card>
+        </view>
+      </template>
+      <template v-slot:right="{rightList}">
+        <view class="demo-warter" v-for="(item, index) in rightList" :key="index">
+          <item-card :img="item.image" :title="item.title" :owner="item.owner" :avatar="item.avatar" :price="item.price"></item-card>
+        </view>
+      </template>
+    </u-waterfall>
+    <u-loadmore bg-color="rgb(240, 240, 240)" :status="loadStatus" :icon-type="loadIconType" :load-text="loadText" @loadmore="addData"></u-loadmore>
   </view>
 </template>
 
 <script>
+import itemCard from "./itemCard";
 export default {
   //根据props获取要展示的内容
   props:{
@@ -17,16 +30,126 @@ export default {
     //排序方式
     sort:String,
     //物品类别
-    kind:String
+    kind:String,
+  },
+  components:{
+    itemCard
   },
   data(){
     return{
+      //要展示的数据，后端请求来放里面
+      list:[],
+      //存放数据展示的
+      flowList: [],
+
+      //数据总量(从后台获取)
+      data_count:0,
+      //当前已经加载的个数
+      load_index:0,
+      //每次点击加载加载的个数
+      load_max:4,
+      //模拟数据
+      mylist: [
+        {
+          price: 35,
+          title: '键盘',
+          owner: 'NovemberSnow',
+          avatar:'https://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEJibET8hib64cbJVKVhkw6XEIIibcqbQrTJFYCGRyMHeYe9T0vHqYtGjGxbPLqVANC3GFzQYJkt3zc1A/132',
+          image: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1732669690,3813182348&fm=11&gp=0.jpg',
+        },
+        {
+          price: 35,
+          title: '键盘',
+          owner: 'NovemberSnow',
+          avatar:'https://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEJibET8hib64cbJVKVhkw6XEIIibcqbQrTJFYCGRyMHeYe9T0vHqYtGjGxbPLqVANC3GFzQYJkt3zc1A/132',
+          image: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1732669690,3813182348&fm=11&gp=0.jpg',
+        },
+        {
+          price: 35,
+          title: '键盘',
+          owner: 'NovemberSnow',
+          avatar:'https://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEJibET8hib64cbJVKVhkw6XEIIibcqbQrTJFYCGRyMHeYe9T0vHqYtGjGxbPLqVANC3GFzQYJkt3zc1A/132',
+          image: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1732669690,3813182348&fm=11&gp=0.jpg',
+        },
+        {
+          price: 35,
+          title: '键盘',
+          owner: 'NovemberSnow',
+          avatar:'https://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEJibET8hib64cbJVKVhkw6XEIIibcqbQrTJFYCGRyMHeYe9T0vHqYtGjGxbPLqVANC3GFzQYJkt3zc1A/132',
+          image: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1732669690,3813182348&fm=11&gp=0.jpg',
+        },{
+          price: 35,
+          title: '键盘',
+          owner: 'NovemberSnow',
+          avatar:'https://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEJibET8hib64cbJVKVhkw6XEIIibcqbQrTJFYCGRyMHeYe9T0vHqYtGjGxbPLqVANC3GFzQYJkt3zc1A/132',
+          image: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1732669690,3813182348&fm=11&gp=0.jpg',
+        }
+      ],
+      //loadmode组件
+      loadStatus: 'loadmore',
+      loadIconType: 'flower',
+      loadText: {
+        loadmore: '点击加载更多',
+        loading: '努力加载中',
+        nomore: '实在没有了'
+      },
+    }
+  },
+  mounted() {
+    console.log("挂载前加载")
+    this.addData();
+    //将方法挂载在新对象
+    // this.$root.$on('addRandomData',this.addRandomData);
+  },
+  beforeDestroy(){
+    //解除绑定
+    // this.$root.$off('addRandomData');
+  },
+  methods: {
+    addData() {
+      //数据加载完了
+      if(this.load_index>=this.data_count){
+        this.loadStatus='nomore';
+        return;
+      }
+
+      //数据没加载完
+      this.loadStatus='loading';
+      //长度不够
+      let length;
+      if(this.data_count-this.load_index<this.load_max){
+        length = this.data_count-this.load_index;
+        this.load_index = this.data_count;
+      }else{
+        length = this.load_max;
+        this.load_index += this.load_max;
+      }
+
+      //模拟加载数据
+      setTimeout(() => {
+        for(let i = 0; i < length; i++) {
+          //调用api获取数据(根据下标)
+
+          // 先转成字符串再转成对象，避免数组对象引用导致数据混乱
+          let item = JSON.parse(JSON.stringify(this.list[this.load_index-length+i]));
+          item.id = this.$u.guid();
+          this.flowList.push(item);
+        };
+        this.loadStatus = 'loadmore';
+      }, 1000);
+
 
     }
-  }
+  },
 }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+.demo-warter {
+  border-radius: 8px;
+  margin: 5px;
+  background-color: #ffffff;
+  padding: 8px;
+  position: relative;
+}
 </style>

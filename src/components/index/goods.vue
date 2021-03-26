@@ -203,6 +203,9 @@ export default {
     //scrollview到底加载更多
     onreachBottom(){
       console.log("view到底");
+      //行不通 太卡了
+      // this.$root.$emit('addRandomData');
+      // console.log("调用成功");
     },
 
     //距离列选择器确定
