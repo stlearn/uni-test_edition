@@ -46,6 +46,8 @@
           <swiper-item v-for="(item, index) in kinds" :key="index">
             <scroll-view scroll-y style="height: 76vh;width: 100%;" @scrolltolower="onreachBottom">
               <!--物品代码-->
+<!--              无网络提示-->
+              <u-no-network></u-no-network>
               <wallfall :dis="dis[dis_index].label" :location="options_value"
                         which="goods" :kind="kinds[current].name" :sort="sort_value"></wallfall>
             </scroll-view>
@@ -63,6 +65,8 @@
           <swiper-item v-for="(item, index) in kinds" :key="index">
             <scroll-view scroll-y style="height: 70vh;width: 100%;" @scrolltolower="onreachBottom">
               <!--物品代码-->
+              <!--              无网络提示-->
+              <u-no-network></u-no-network>
               <wallfall :dis="dis[dis_index].label" :location="options_value"
                         which="goods" :kind="kinds[current].name" :sort="sort_value"></wallfall>
             </scroll-view>

@@ -78,6 +78,22 @@
 			"style": {
 				"navigationBarTitleText":"发布"
 			}
+		},{
+			"path": "pages/publish/subpages/goods_publish",
+			"style": {
+				"navigationBarTitleText":"发布商品"
+			}
+		},{
+			"path": "pages/publish/subpages/service_publish",
+			"style": {
+				"navigationBarTitleText":"发布服务"
+			}
+		},
+		{
+			"path": "pages/product/product",
+			"style": {
+				"navigationBarTitleText":"商品详情"
+			}
 		}
 	],
 	"globalStyle": {

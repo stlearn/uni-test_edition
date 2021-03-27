@@ -38,19 +38,52 @@ export default {
   data(){
     return{
       //要展示的数据，后端请求来放里面
-      list:[],
+      //list:[],
       //存放数据展示的
       flowList: [],
 
       //数据总量(从后台获取)
-      data_count:0,
+      data_count:10,
       //当前已经加载的个数
       load_index:0,
       //每次点击加载加载的个数
       load_max:4,
       //模拟数据
-      mylist: [
+      list: [
         {
+          price: 35,
+          title: '键盘',
+          owner: 'NovemberSnow',
+          avatar:'https://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEJibET8hib64cbJVKVhkw6XEIIibcqbQrTJFYCGRyMHeYe9T0vHqYtGjGxbPLqVANC3GFzQYJkt3zc1A/132',
+          image: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1732669690,3813182348&fm=11&gp=0.jpg',
+        },
+        {
+          price: 35,
+          title: '键盘',
+          owner: 'NovemberSnow',
+          avatar:'https://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEJibET8hib64cbJVKVhkw6XEIIibcqbQrTJFYCGRyMHeYe9T0vHqYtGjGxbPLqVANC3GFzQYJkt3zc1A/132',
+          image: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1732669690,3813182348&fm=11&gp=0.jpg',
+        },
+        {
+          price: 35,
+          title: '键盘',
+          owner: 'NovemberSnow',
+          avatar:'https://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEJibET8hib64cbJVKVhkw6XEIIibcqbQrTJFYCGRyMHeYe9T0vHqYtGjGxbPLqVANC3GFzQYJkt3zc1A/132',
+          image: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1732669690,3813182348&fm=11&gp=0.jpg',
+        },
+        {
+          price: 35,
+          title: '键盘',
+          owner: 'NovemberSnow',
+          avatar:'https://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEJibET8hib64cbJVKVhkw6XEIIibcqbQrTJFYCGRyMHeYe9T0vHqYtGjGxbPLqVANC3GFzQYJkt3zc1A/132',
+          image: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1732669690,3813182348&fm=11&gp=0.jpg',
+        },{
+          price: 35,
+          title: '键盘',
+          owner: 'NovemberSnow',
+          avatar:'https://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEJibET8hib64cbJVKVhkw6XEIIibcqbQrTJFYCGRyMHeYe9T0vHqYtGjGxbPLqVANC3GFzQYJkt3zc1A/132',
+          image: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1732669690,3813182348&fm=11&gp=0.jpg',
+        },{
           price: 35,
           title: '键盘',
           owner: 'NovemberSnow',

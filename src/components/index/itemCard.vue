@@ -1,6 +1,6 @@
 <!--suppress ALL -->
 <template>
-<view class="card">
+<view class="card" @click="toDetails">
   <u-lazy-load threshold="0" border-radius="10" :image="img" :index="index"></u-lazy-load>
   <view class="under">
     <view class="under_left">
@@ -24,11 +24,22 @@
 <script>
 export default {
   props:{
+    id:String,
     img:String,
     title:String,
     price:String,
     owner:String,
     avatar:String
+  },
+  data(){
+    return{
+      id_:"123"
+    }
+  },
+  methods:{
+    toDetails(){
+      uni.navigateTo({url:"../../pages/product/product?id="+this.id_});
+    }
   }
 }
 </script>
