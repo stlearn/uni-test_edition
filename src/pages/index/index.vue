@@ -1,7 +1,8 @@
 <template>
   <view class="container">
     <view class="header">
-      <view class="header_address"><u-icon name="map" color="#ffffff" size="38"></u-icon>地址▾</view>
+      <view class="header_address" @click="getAddress()" v-if="address===''||address===null"><u-icon name="map" color="#ffffff" size="38"></u-icon>地址▾</view>
+      <view class="header_address" @click="getAddress()" v-else ><u-icon name="map" color="#ffffff" size="38"></u-icon>{{address}}▾</view>
       <view class="header_tabs">
         <u-tabs
           :list="list"
@@ -42,6 +43,7 @@ export default {
         },
       ],
       current: 0,
+      address:''
     };
   },
 
@@ -67,6 +69,19 @@ export default {
     change(index) {
       this.current = index;
     },
+    getAddress(){
+      let that=this;
+      uni.chooseLocation({
+        success: function (res) {
+          console.log(res);
+          that.address = res.name;
+          console.log('位置名称：' + res.name);
+          console.log('详细地址：' + res.address);
+          console.log('纬度：' + res.latitude);
+          console.log('经度：' + res.longitude);
+        }
+      });
+    }
   },
   onPullDownRefresh: function () {
     console.log("顶部");
@@ -104,6 +119,8 @@ export default {
   align-items: center;
   font-size: 14px;
   color: #ffffff;
+  white-space: nowrap;
+  overflow: auto;
 }
 .header_tabs {
   width: 400rpx;

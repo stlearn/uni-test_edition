@@ -1,15 +1,27 @@
+<!--suppress ALL -->
 <template>
-  <view class="container"> 我在卖的 </view>
+  <view class="container">
+    <product-card product-id="123" father="onsale"></product-card>
+    <product-card product-id="123" father="onsale"></product-card>
+    <product-card product-id="123" father="onsale"></product-card>
+    <product-card product-id="123" father="onsale"></product-card>
+    <product-card product-id="123" father="onsale"></product-card>
+  </view>
 </template>
 <script>
-export default {};
+import productCard from "../../../components/mine/productCard";
+export default {
+  components:{
+    productCard
+  }
+};
 </script>
 <style>
 .container {
   width: 750rpx;
-  height: 100vh;
   background: #eceff1;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 </style>
