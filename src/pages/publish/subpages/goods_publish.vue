@@ -60,7 +60,14 @@
 </template>
 
 <script>
+import {kinds} from "../../../shared/kinds";
+
 export default {
+  //加载数据
+  mounted() {
+    this.actionSheetList = kinds.getGoodsKinds('text');
+    console.log(this.actionSheetList);
+  },
   data() {
     return {
       //商品信息
@@ -79,21 +86,8 @@ export default {
       //分类变量
       show: false,
       default_kind:"请选择分类>",
-      actionSheetList: [
-        {
-          text: "手机",
-        },{
-          text: "服饰",
-        },
-        {
-          text: "家具",
-        },{
-          text: "日常用品",
-        },
-        {
-          text: "玩具",
-        }
-      ],
+      //mounted注入
+      actionSheetList:null,
       //存储照片
       action: "http://localhost:3000/upload",
       fileList: [],

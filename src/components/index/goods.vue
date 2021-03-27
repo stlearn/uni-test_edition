@@ -78,9 +78,15 @@
 </template>
 <script>
 import wallfall from "./wallfall";
+import {kinds as ki} from "../../shared/kinds"
 export default {
   components:{
     wallfall
+  },
+  //加载数据
+  mounted() {
+    this.kinds=ki.getGoodsKinds('name');
+    console.log(this.kinds)
   },
   data() {
     return {
@@ -122,24 +128,7 @@ export default {
       ],
 
       //品类选择种类定义
-      kinds: [
-        {
-          name: "全部",
-        },
-        {
-          name: "手机",
-        },{
-          name: "服饰",
-        },
-        {
-          name: "家具",
-        },{
-          name: "日常用品",
-        },
-        {
-          name: "玩具",
-        }
-      ],
+      kinds:null,
       current: 0, //种类栏
       swiperCurrent: 0, // swiper组件的current值，表示当前那个swiper-item是活动的
 

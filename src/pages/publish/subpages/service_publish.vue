@@ -60,7 +60,13 @@
 </template>
 
 <script>
+import {kinds} from "../../../shared/kinds";
+
 export default {
+  mounted() {
+    this.actionSheetList = kinds.getServiceKinds('text');
+    console.log(this.actionSheetList);
+  },
   data() {
     return {
       //商品信息
@@ -79,25 +85,7 @@ export default {
       //分类变量
       show: false,
       default_kind:"请选择分类>",
-      actionSheetList: [
-        {
-          text: "打扫",
-        },
-        {
-          text:"维修",
-        },
-        {
-          text: "搬家",
-        },
-        {
-          text: "用车",
-        },{
-          text: "帮看孩子",
-        },
-        {
-          text: "其他",
-        }
-      ],
+      actionSheetList:null,
       //存储照片
       action: "http://localhost:3000/upload",
       fileList: [],
