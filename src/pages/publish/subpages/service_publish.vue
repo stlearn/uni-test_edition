@@ -43,7 +43,7 @@
         <u-icon name="grid" color="#000000" size="40"></u-icon>分类
         <view class="right" @click="show=true" v-if="kind===null||kind===''">{{default_kind}}</view>
         <view class="right" style="margin-right: 10vw" @click="show=true" v-else>{{kind}}</view>
-        <u-action-sheet :list="actionSheetList" v-model="show" @click="actionSheetCallback"></u-action-sheet>
+        <u-picker mode="selector" v-model="show"  :default-selector="[0]" :range="actionSheetList" @confirm="confirmKind"></u-picker>
       </view>
       <view class="line"></view>
       <view class="price">
@@ -64,8 +64,8 @@ import {kinds} from "../../../shared/kinds";
 
 export default {
   mounted() {
-    this.actionSheetList = kinds.getServiceKinds('text');
-    console.log(this.actionSheetList);
+    //加载数据
+    this.actionSheetList = kinds.getServiceKinds('');
   },
   data() {
     return {
@@ -97,8 +97,8 @@ export default {
   },
   methods: {
     // 点击actionSheet回调
-    actionSheetCallback(index) {
-      this.kind = this.actionSheetList[index].text;
+    confirmKind(index) {
+      this.kind = this.actionSheetList[index[0]];
     },
     //键盘
     // 按键被点击(点击退格键不会触发此事件)

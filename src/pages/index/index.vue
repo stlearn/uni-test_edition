@@ -1,8 +1,8 @@
 <template>
   <view class="container">
     <view class="header">
-      <view class="header_address" @click="getAddress()" v-if="address===''||address===null"><u-icon name="map" color="#ffffff" size="38"></u-icon>地址▾</view>
-      <view class="header_address" @click="getAddress()" v-else ><u-icon name="map" color="#ffffff" size="38"></u-icon>{{address}}▾</view>
+      <view class="header_address" @click="changeCommunity()" v-if="user.community===''||user.community===null"><u-icon name="map" color="#ffffff" size="38"></u-icon>地址▾</view>
+      <view class="header_address" @click="changeCommunity()" v-else ><u-icon name="map" color="#ffffff" size="38"></u-icon>{{user.community}}▾</view>
       <view class="header_tabs">
         <u-tabs
           :list="list"
@@ -28,10 +28,17 @@
 import { mapState, mapGetters, mapMutations } from "vuex";
 import rest from "../../components/index/goods";
 import service from "../../components/index/service";
+import request from "../../api/request";
 export default {
 
   components: { rest, service },
 
+  onLoad(){
+    console.log(this.user);
+  },
+  onShow(){
+    this.$forceUpdate();
+  },
   data() {
     return {
       list: [
@@ -60,25 +67,56 @@ export default {
       //message: (state) => state.test.message,
       id: (state) => state.test.id,
       name: (state) => state.test.name,
+      user: (state) => state.login.user,
+      logined: (state) => state.login.logined
     }),
     ...mapGetters("test", ["getOld", "getOldThan"]),
   },
 
   methods: {
     ...mapMutations("test", ["increment", "decrement", "setMessage"]),
+    ...mapMutations("login",['updateCommunity']),
+
     change(index) {
       this.current = index;
     },
-    getAddress(){
-      let that=this;
-      uni.chooseLocation({
+
+    changeCommunity(){
+      //未登录
+      if(!this.logined){
+        uni.showToast({title:"请先登录",icon:"none"});
+        return;
+      }
+      var that = this;
+      uni.showModal({
+        title: '提示',
+        content: '您确定要修改小区信息？',
         success: function (res) {
-          console.log(res);
-          that.address = res.name;
-          console.log('位置名称：' + res.name);
-          console.log('详细地址：' + res.address);
-          console.log('纬度：' + res.latitude);
-          console.log('经度：' + res.longitude);
+          if (res.confirm) {
+            console.log('用户点击确定');
+            uni.chooseLocation({
+              type: "wgs84",
+              success:(res)=>{
+                //修改vuex状态
+                that.updateCommunity({community:res.name,community_longitude:res.longitude,community_latitude:res.latitude});
+                //that.store_login(that.local_user);
+                //调用接口修改小区信息
+                request('POST','/user/updatelocation',
+                    {community:res.name,community_longitude:res.longitude,community_latitude:res.latitude});
+                console.log("更新位置信息");
+                console.log(that.user);
+
+                uni.showToast({
+                  title: "选择成功",
+                  icon: "success",
+                  mask: true,
+                });
+              }
+            });
+          }
+          if(res.cancel){
+            return;
+          }
         }
       });
     }

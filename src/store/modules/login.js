@@ -4,18 +4,24 @@
  const state = ()=>({
     logined:false,
     user:{
-        id:"",  //唯一性区分，暂时用openID,后面会使用自己生产的账户
+        token:"",  //唯一性区分，暂时用openID,后面会使用自己生产的账户
         name:"",   //微信id
         avatar:"",
         gender:"",
-        description:""
+        description:"",
+        community:"",
+        community_longitude:"",
+        community_latitude:""
     },
     default_user:{
-        id:"",
+        token:"",
         name:"",
         avatar:"",
         gender:"",
-        description:""
+        description:"",
+        community:"",
+        community_longitude:"",
+        community_latitude:""
     }
 })
 
@@ -27,6 +33,13 @@ const  mutations = {
     logout(state){
         state.logined=false;
         state.user = state.default_user;
+    },
+    updateCommunity(state,community){
+        console.log("user---------------")
+        console.log(community);
+        state.user.community = community.community;
+        state.user.community_latitude = community.community_latitude;
+        state.user.community_longitude = community.community_longitude;
     }
 }
 

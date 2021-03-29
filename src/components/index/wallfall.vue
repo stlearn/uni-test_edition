@@ -3,12 +3,12 @@
     <u-waterfall v-model="flowList" ref="uWaterfall">
       <template v-slot:left="{leftList}">
         <view class="demo-warter" v-for="(item, index) in leftList" :key="index">
-          <item-card :img="item.image" :title="item.title" :owner="item.owner" :avatar="item.avatar" :price="item.price"></item-card>
+          <item-card :goods-id="item.goods_id" :img="item.imageUrl" :title="item.name" :owner="item.owner" :avatar="item.avatar" :price="item.price"></item-card>
         </view>
       </template>
       <template v-slot:right="{rightList}">
         <view class="demo-warter" v-for="(item, index) in rightList" :key="index">
-          <item-card :img="item.image" :title="item.title" :owner="item.owner" :avatar="item.avatar" :price="item.price"></item-card>
+          <item-card :goods-id="item.goods_id" :img="item.imageUrl" :title="item.name" :owner="item.owner" :avatar="item.avatar" :price="item.price"></item-card>
         </view>
       </template>
     </u-waterfall>
@@ -18,6 +18,7 @@
 
 <script>
 import itemCard from "./itemCard";
+import request from "../../api/request";
 export default {
   //根据props获取要展示的内容
   props:{
@@ -35,89 +36,92 @@ export default {
   components:{
     itemCard
   },
+  datas:{
+
+  },
   data(){
     return{
       //要展示的数据，后端请求来放里面
-      //list:[],
+      list:new Array(),
       //存放数据展示的
       flowList: [],
 
       //数据总量(从后台获取)
-      data_count:10,
+      data_count:0,
       //当前已经加载的个数
       load_index:0,
       //每次点击加载加载的个数
       load_max:4,
       //模拟数据
-      list: [
-        {
-          price: 35,
-          title: '键盘',
-          owner: 'NovemberSnow',
-          avatar:'https://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEJibET8hib64cbJVKVhkw6XEIIibcqbQrTJFYCGRyMHeYe9T0vHqYtGjGxbPLqVANC3GFzQYJkt3zc1A/132',
-          image: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1732669690,3813182348&fm=11&gp=0.jpg',
-        },
-        {
-          price: 35,
-          title: '键盘',
-          owner: 'NovemberSnow',
-          avatar:'https://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEJibET8hib64cbJVKVhkw6XEIIibcqbQrTJFYCGRyMHeYe9T0vHqYtGjGxbPLqVANC3GFzQYJkt3zc1A/132',
-          image: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1732669690,3813182348&fm=11&gp=0.jpg',
-        },
-        {
-          price: 35,
-          title: '键盘',
-          owner: 'NovemberSnow',
-          avatar:'https://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEJibET8hib64cbJVKVhkw6XEIIibcqbQrTJFYCGRyMHeYe9T0vHqYtGjGxbPLqVANC3GFzQYJkt3zc1A/132',
-          image: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1732669690,3813182348&fm=11&gp=0.jpg',
-        },
-        {
-          price: 35,
-          title: '键盘',
-          owner: 'NovemberSnow',
-          avatar:'https://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEJibET8hib64cbJVKVhkw6XEIIibcqbQrTJFYCGRyMHeYe9T0vHqYtGjGxbPLqVANC3GFzQYJkt3zc1A/132',
-          image: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1732669690,3813182348&fm=11&gp=0.jpg',
-        },{
-          price: 35,
-          title: '键盘',
-          owner: 'NovemberSnow',
-          avatar:'https://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEJibET8hib64cbJVKVhkw6XEIIibcqbQrTJFYCGRyMHeYe9T0vHqYtGjGxbPLqVANC3GFzQYJkt3zc1A/132',
-          image: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1732669690,3813182348&fm=11&gp=0.jpg',
-        },{
-          price: 35,
-          title: '键盘',
-          owner: 'NovemberSnow',
-          avatar:'https://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEJibET8hib64cbJVKVhkw6XEIIibcqbQrTJFYCGRyMHeYe9T0vHqYtGjGxbPLqVANC3GFzQYJkt3zc1A/132',
-          image: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1732669690,3813182348&fm=11&gp=0.jpg',
-        },
-        {
-          price: 35,
-          title: '键盘',
-          owner: 'NovemberSnow',
-          avatar:'https://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEJibET8hib64cbJVKVhkw6XEIIibcqbQrTJFYCGRyMHeYe9T0vHqYtGjGxbPLqVANC3GFzQYJkt3zc1A/132',
-          image: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1732669690,3813182348&fm=11&gp=0.jpg',
-        },
-        {
-          price: 35,
-          title: '键盘',
-          owner: 'NovemberSnow',
-          avatar:'https://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEJibET8hib64cbJVKVhkw6XEIIibcqbQrTJFYCGRyMHeYe9T0vHqYtGjGxbPLqVANC3GFzQYJkt3zc1A/132',
-          image: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1732669690,3813182348&fm=11&gp=0.jpg',
-        },
-        {
-          price: 35,
-          title: '键盘',
-          owner: 'NovemberSnow',
-          avatar:'https://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEJibET8hib64cbJVKVhkw6XEIIibcqbQrTJFYCGRyMHeYe9T0vHqYtGjGxbPLqVANC3GFzQYJkt3zc1A/132',
-          image: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1732669690,3813182348&fm=11&gp=0.jpg',
-        },{
-          price: 35,
-          title: '键盘',
-          owner: 'NovemberSnow',
-          avatar:'https://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEJibET8hib64cbJVKVhkw6XEIIibcqbQrTJFYCGRyMHeYe9T0vHqYtGjGxbPLqVANC3GFzQYJkt3zc1A/132',
-          image: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1732669690,3813182348&fm=11&gp=0.jpg',
-        }
-      ],
+      // list: [
+      //   {
+      //     price: 35,
+      //     title: '键盘',
+      //     owner: 'NovemberSnow',
+      //     avatar:'https://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEJibET8hib64cbJVKVhkw6XEIIibcqbQrTJFYCGRyMHeYe9T0vHqYtGjGxbPLqVANC3GFzQYJkt3zc1A/132',
+      //     image: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1732669690,3813182348&fm=11&gp=0.jpg',
+      //   },
+      //   {
+      //     price: 35,
+      //     title: '键盘',
+      //     owner: 'NovemberSnow',
+      //     avatar:'https://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEJibET8hib64cbJVKVhkw6XEIIibcqbQrTJFYCGRyMHeYe9T0vHqYtGjGxbPLqVANC3GFzQYJkt3zc1A/132',
+      //     image: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1732669690,3813182348&fm=11&gp=0.jpg',
+      //   },
+      //   {
+      //     price: 35,
+      //     title: '键盘',
+      //     owner: 'NovemberSnow',
+      //     avatar:'https://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEJibET8hib64cbJVKVhkw6XEIIibcqbQrTJFYCGRyMHeYe9T0vHqYtGjGxbPLqVANC3GFzQYJkt3zc1A/132',
+      //     image: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1732669690,3813182348&fm=11&gp=0.jpg',
+      //   },
+      //   {
+      //     price: 35,
+      //     title: '键盘',
+      //     owner: 'NovemberSnow',
+      //     avatar:'https://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEJibET8hib64cbJVKVhkw6XEIIibcqbQrTJFYCGRyMHeYe9T0vHqYtGjGxbPLqVANC3GFzQYJkt3zc1A/132',
+      //     image: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1732669690,3813182348&fm=11&gp=0.jpg',
+      //   },{
+      //     price: 35,
+      //     title: '键盘',
+      //     owner: 'NovemberSnow',
+      //     avatar:'https://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEJibET8hib64cbJVKVhkw6XEIIibcqbQrTJFYCGRyMHeYe9T0vHqYtGjGxbPLqVANC3GFzQYJkt3zc1A/132',
+      //     image: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1732669690,3813182348&fm=11&gp=0.jpg',
+      //   },{
+      //     price: 35,
+      //     title: '键盘',
+      //     owner: 'NovemberSnow',
+      //     avatar:'https://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEJibET8hib64cbJVKVhkw6XEIIibcqbQrTJFYCGRyMHeYe9T0vHqYtGjGxbPLqVANC3GFzQYJkt3zc1A/132',
+      //     image: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1732669690,3813182348&fm=11&gp=0.jpg',
+      //   },
+      //   {
+      //     price: 35,
+      //     title: '键盘',
+      //     owner: 'NovemberSnow',
+      //     avatar:'https://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEJibET8hib64cbJVKVhkw6XEIIibcqbQrTJFYCGRyMHeYe9T0vHqYtGjGxbPLqVANC3GFzQYJkt3zc1A/132',
+      //     image: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1732669690,3813182348&fm=11&gp=0.jpg',
+      //   },
+      //   {
+      //     price: 35,
+      //     title: '键盘',
+      //     owner: 'NovemberSnow',
+      //     avatar:'https://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEJibET8hib64cbJVKVhkw6XEIIibcqbQrTJFYCGRyMHeYe9T0vHqYtGjGxbPLqVANC3GFzQYJkt3zc1A/132',
+      //     image: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1732669690,3813182348&fm=11&gp=0.jpg',
+      //   },
+      //   {
+      //     price: 35,
+      //     title: '键盘',
+      //     owner: 'NovemberSnow',
+      //     avatar:'https://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEJibET8hib64cbJVKVhkw6XEIIibcqbQrTJFYCGRyMHeYe9T0vHqYtGjGxbPLqVANC3GFzQYJkt3zc1A/132',
+      //     image: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1732669690,3813182348&fm=11&gp=0.jpg',
+      //   },{
+      //     price: 35,
+      //     title: '键盘',
+      //     owner: 'NovemberSnow',
+      //     avatar:'https://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEJibET8hib64cbJVKVhkw6XEIIibcqbQrTJFYCGRyMHeYe9T0vHqYtGjGxbPLqVANC3GFzQYJkt3zc1A/132',
+      //     image: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1732669690,3813182348&fm=11&gp=0.jpg',
+      //   }
+      // ],
       //loadmode组件
       loadStatus: 'loadmore',
       loadIconType: 'flower',
@@ -129,7 +133,20 @@ export default {
     }
   },
   mounted() {
-    console.log("挂载前加载")
+    console.log("挂载前加载");
+    var that = this;
+    //物品
+    if(this.which=="goods"){
+      request('GET','/goods/getgoods',{location:'小区',kind:that.kind}).then((res)=>{
+        that.list.push(...res);
+        console.log(that.list);
+        that.data_count = res.length;
+        console.log(res.length);
+        that.addData();
+      })
+    }else{ //服务
+
+    }
     this.addData();
     //将方法挂载在新对象
     // this.$root.$on('addRandomData',this.addRandomData);

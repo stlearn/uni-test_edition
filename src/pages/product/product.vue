@@ -37,7 +37,7 @@ export default {
   data(){
     return{
       //产品id,onLoad传入
-      id:'',
+      id:Number,
 
       //商品信息，后台获取
       goods_:{

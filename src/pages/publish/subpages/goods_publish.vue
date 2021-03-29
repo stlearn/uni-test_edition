@@ -43,7 +43,7 @@
         <u-icon name="grid" color="#000000" size="40"></u-icon>分类
         <view class="right" @click="show=true" v-if="kind===null||kind===''">{{default_kind}}</view>
         <view class="right" style="margin-right: 10vw" @click="show=true" v-else>{{kind}}</view>
-        <u-action-sheet :list="actionSheetList" v-model="show" @click="actionSheetCallback"></u-action-sheet>
+        <u-picker mode="selector" v-model="show"  :default-selector="[0]" :range="actionSheetList" @confirm="confirmKind"></u-picker>
       </view>
       <view class="line"></view>
       <view class="price">
@@ -61,28 +61,36 @@
 
 <script>
 import {kinds} from "../../../shared/kinds";
-
+import publishGoods from "../../../api/publish/publish_goods"
+import request from "../../../api/request";
 export default {
   //加载数据
   mounted() {
-    this.actionSheetList = kinds.getGoodsKinds('text');
+    this.actionSheetList = kinds.getGoodsKinds('');
     console.log(this.actionSheetList);
   },
   data() {
     return {
+      //防止提交按钮被多次点击
+      click_count:0,
       //商品信息
       goods:{
         title:"",
         description:"",
         price:"",
         kind:"",
-        images:new Array()
+        images:new Array(),
+        longitude:"",
+        latitude:""
       },
       title: "",
       description: "",
       price:'',
       kind:'',
       images: new Array(),
+      longitude:"",
+      latitude:"",
+
       //分类变量
       show: false,
       default_kind:"请选择分类>",
@@ -94,13 +102,14 @@ export default {
 
       //价格控件控制
       show_keyboard:false,
-      default_price:"请输入价格 >"
+      default_price:"请输入价格 >",
+
     };
   },
   methods: {
     // 点击actionSheet回调
-    actionSheetCallback(index) {
-      this.kind = this.actionSheetList[index].text;
+    confirmKind(index) {
+      this.kind = this.actionSheetList[index[0]];
     },
     //键盘
     // 按键被点击(点击退格键不会触发此事件)
@@ -131,7 +140,70 @@ export default {
     },
     //提交以及验证函数
     submit(){
-      uni.switchTab({url:'/pages/index/index'});
+
+      //多次点击阻止
+      if(this.click_count!==0){
+        uni.showToast({title:"请勿连续点击提交",icon:"none"});
+        return;
+      }
+
+      //表单验证
+      if(this.title===''||this.title===null){
+        uni.showToast({title:"请输入标题",icon:"none"});
+        return;
+      }
+      if(this.description===''||this.description===null){
+        uni.showToast({title:"请输入对商品的描述",icon:"none"});
+        return;
+      }
+      if(this.images.length===0||this.images===null){
+        uni.showToast({title:"请添加图片",icon:"none"});
+        return;
+      }
+      if(this.price===''||this.price===null){
+        uni.showToast({title:"请输入价格",icon:"none"});
+        return;
+      }
+      if(this.kind===''||this.kind===null){
+        uni.showToast({title:"请选择分类",icon:"none"});
+        return;
+      }
+      this.goods.title = this.title;
+      this.goods.description = this.description;
+      this.goods.images = this.images;
+      this.goods.price = this.price;
+      this.goods.kind = this.kind;
+      let that = this;
+
+      //获取经纬度
+      uni.getLocation({
+        type: 'wgs84',
+        success: function (res) {
+          that.goods.longitude = res.longitude;
+          that.goods.latitude = res.latitude;
+
+          //异步获取结果，并分析结果
+          request('POST','/publish/addgoods',{data:that.goods}).then(
+              (response)=>{
+                console.log(response);
+                that.click_count++;
+                if(response.status===200){
+                  //显示提示
+                  uni.showToast({title:"发布成功",icon:"success"});
+                  setTimeout(()=>{
+                    //返回主页
+                    uni.switchTab({url:'/pages/index/index'});
+                  },2000);
+                }else{
+                  uni.showToast({title:"发布失败",icon:"none"});
+                }
+              }
+          )
+        },
+        fail:(res)=>{
+          uni.showToast({title:"请打开位置权限",icon:"none"});
+        }
+      });
     }
   },
 };

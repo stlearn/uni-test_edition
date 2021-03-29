@@ -23,8 +23,10 @@
 
 <script>
 export default {
+  mounted() {
+  },
   props:{
-    id:String,
+    goodsId:Number,
     img:String,
     title:String,
     price:String,
@@ -33,7 +35,7 @@ export default {
   },
   data(){
     return{
-      id_:"123"
+      id_:this.goodsId
     }
   },
   methods:{

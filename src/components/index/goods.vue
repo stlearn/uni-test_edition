@@ -49,7 +49,7 @@
 <!--              无网络提示-->
               <u-no-network></u-no-network>
               <wallfall :dis="dis[dis_index].label" :location="options_value"
-                        which="goods" :kind="kinds[current].name" :sort="sort_value"></wallfall>
+                        which="goods" :kind="kinds[index].name" :sort="sort_value"></wallfall>
             </scroll-view>
           </swiper-item>
         </swiper>
@@ -68,7 +68,7 @@
               <!--              无网络提示-->
               <u-no-network></u-no-network>
               <wallfall :dis="dis[dis_index].label" :location="options_value"
-                        which="goods" :kind="kinds[current].name" :sort="sort_value"></wallfall>
+                        which="goods" :kind="kinds[index].name" :sort="sort_value"></wallfall>
             </scroll-view>
           </swiper-item>
         </swiper>
@@ -85,7 +85,8 @@ export default {
   },
   //加载数据
   mounted() {
-    this.kinds=ki.getGoodsKinds('name');
+    this.kinds.push({name:'全部'});
+    this.kinds.push(...ki.getGoodsKinds('name'));
     console.log(this.kinds)
   },
   data() {
@@ -128,7 +129,7 @@ export default {
       ],
 
       //品类选择种类定义
-      kinds:null,
+      kinds:new Array(),
       current: 0, //种类栏
       swiperCurrent: 0, // swiper组件的current值，表示当前那个swiper-item是活动的
 
