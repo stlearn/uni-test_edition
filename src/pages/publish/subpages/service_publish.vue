@@ -1,6 +1,8 @@
 <!--suppress ALL -->
 <template>
   <view class="container">
+    <!--              无网络提示-->
+    <u-no-network></u-no-network>
     <!--页面内容-->
     <view>
       <view class="title">

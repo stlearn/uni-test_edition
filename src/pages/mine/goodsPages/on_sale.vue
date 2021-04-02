@@ -1,6 +1,8 @@
 <!--suppress ALL -->
 <template>
   <view class="container">
+    <!--              无网络提示-->
+    <u-no-network></u-no-network>
     <product-card product-id="123" father="onsale"></product-card>
     <product-card product-id="123" father="onsale"></product-card>
     <product-card product-id="123" father="onsale"></product-card>

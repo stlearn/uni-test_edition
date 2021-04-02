@@ -1,5 +1,8 @@
 <template>
-  <view class="container"> 我在卖的 </view>
+  <view class="container">
+    <!--              无网络提示-->
+    <u-no-network></u-no-network>
+    我在卖的 </view>
 </template>
 <script>
 export default {};

@@ -1,22 +1,24 @@
 <!--suppress ALL -->
 <template>
   <view class="container">
+    <!--              无网络提示-->
+    <u-no-network></u-no-network>
     <view class="images">
-      <u-swiper :list="goods.images" mode="number" indicator-pos="bottomRight" height="500"></u-swiper>
+      <u-swiper :list="pictures" mode="number" indicator-pos="bottomRight" height="500"></u-swiper>
     </view>
     <view class="price" style="color: red;font-family: 'Helvetica Neue', Helvetica, sans-serif;font-size: 25px">￥{{goods.price}}</view>
-    <view class="title" style="font-family: 'Helvetica Neue', Helvetica, sans-serif;font-size: 18px">{{goods.title}}</view>
+    <view class="title" style="font-family: 'Helvetica Neue', Helvetica, sans-serif;font-size: 18px">{{goods.name}}</view>
     <view class="kind">分类:{{goods.kind}}</view>
     <view class="description">物品介绍:<br/>{{goods.description}}</view>
     <view class="under">
       <view class="check">
         <view class="seller">
           <view class="avatar">
-            <u-image width="100%" height="100%" shape="circle" :src="goods.owner.avatar"></u-image>
+            <u-image width="100%" height="100%" shape="circle" :src="owner.avatar"></u-image>
           </view>
           <view class="name">
             <view class="label">卖家:</view>
-            <view class="nikename">{{goods.owner.name}}</view>
+            <view class="nikename">{{owner.name}}</view>
           </view>
           <view class="collect">
             <u-icon name="star" color="#ff1744" size="50" v-if="collected===false" @click="collect"></u-icon>
@@ -33,61 +35,51 @@
 </template>
 
 <script>
+import request from "../../api/request";
 export default {
+  onLoad(options){
+    this.id = options.id;
+    console.log(options.id);
+    //加载数据
+    request('GET','/goods/getgoodsdetail',{goods_id:this.id}).then((res)=>{
+      this.goods=res.goods;
+      this.pictures=res.pictures;
+      this.owner= res.owner;
+    });
+
+  },
   data(){
     return{
       //产品id,onLoad传入
       id:Number,
 
-      //商品信息，后台获取
-      goods_:{
-        title:"",
-        description:"",
-        price:"",
-        kind:"",
-        images:new Array(),
-        ownerID:''
-      },
+      //后台返回的数据
+      goods:null,
+      pictures:null,
+      owner:null,
 
       //收藏
       collected:false,
 
       //测试模拟数据
-      goods:{
-        title:"键盘",
-        description: "这是我的键盘，特别好！这是我的键盘，特别好！这是我的键盘，特别好！这是我的键盘，特别好！这是我的键盘，特别好！这是我的键盘，特别好！这是我的键盘，特别好！这是我的键盘，特别好！这是我的键盘，特别好！这是我的键盘，特别好！这是我的键盘，特别好！这是我的键盘，特别好！这是我的键盘，特别好！这是我的键盘，特别好！这是我的键盘，特别好！这是我的键盘，特别好！这是我的键盘，特别好！这是我的键盘，特别好！这是我的键盘，特别好！",
-        price:"188.0",
-        kind:"电脑配件",
-        images: ["https://gss0.baidu.com/70cFfyinKgQFm2e88IuM_a/forum/w%3D580/sign=ab8d422bcf1349547e1ee86c664f92dd/5374b251f3deb48f79065b74f41f3a292cf578b8.jpg",
-          "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.mp.sohu.com%2Fupload%2F20170829%2Fbe48d4659c614339a73766a642e5a554_th.png&refer=http%3A%2F%2Fimg.mp.sohu.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1619433557&t=b0a66e36e5b35335f5c3cc89e636eedc",
-        "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.alicdn.com%2Fbao%2Fuploaded%2Fi1%2FTB2AN0Nv_tYBeNjy1XdXXXXyVXa_%21%210-rate.jpg&refer=http%3A%2F%2Fimg.alicdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1619433611&t=8c3d6b12a62b9ef1687beb494fa013f8"],
-        owner:{
-          name:"骑猪上高速被拦了",
-          avatar:"https://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEJibET8hib64cbJVKVhkw6XEIIibcqbQrTJFYCGRyMHeYe9T0vHqYtGjGxbPLqVANC3GFzQYJkt3zc1A/132"
-        }
-      }
+
     }
   },
   methods:{
     talk(){
-      uni.showToast({title:"talk whith"+this.goods.owner.name,icon:"none"});
+      uni.showToast({title:"talk whith"+this.owner.id,icon:"none"});
     },
     buy(){
-      uni.showToast({title:"买了"+this.goods.title,icon:"none"});
+      uni.showToast({title:"买了"+this.goods.name,icon:"none"});
     },
     collect(){
       this.collected=true;
-      uni.showToast({title:"收藏了"+this.goods.title,icon:"none"});
+      uni.showToast({title:"收藏了"+this.goods.name,icon:"none"});
     },
     uncollect(){
       this.collected=false;
-      uni.showToast({title:"取消收藏了"+this.goods.title,icon:"none"});
+      uni.showToast({title:"取消收藏了"+this.goods.name,icon:"none"});
     }
-  },
-  onLoad(options){
-    this.id = options.id;
-    console.log(options.id);
-    //获取商品信息
   }
 }
 </script>

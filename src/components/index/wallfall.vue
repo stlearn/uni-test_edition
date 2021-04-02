@@ -36,9 +36,6 @@ export default {
   components:{
     itemCard
   },
-  datas:{
-
-  },
   data(){
     return{
       //要展示的数据，后端请求来放里面

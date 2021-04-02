@@ -1,5 +1,7 @@
 <template >
   <view class="container">
+    <!--              无网络提示-->
+    <u-no-network></u-no-network>
     <view class="flex-item">
       <u-button
         type="primary"
