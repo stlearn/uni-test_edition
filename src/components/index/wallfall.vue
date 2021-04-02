@@ -19,6 +19,7 @@
 <script>
 import itemCard from "./itemCard";
 import request from "../../api/request";
+import {mapState} from "vuex";
 export default {
   //根据props获取要展示的内容
   props:{
@@ -27,7 +28,7 @@ export default {
     //附近还是小区
     location:String,
     //距离.小区的时候无效
-    dis:String,
+    dis:Number,
     //排序方式
     sort:String,
     //物品类别
@@ -126,31 +127,28 @@ export default {
         loadmore: '点击加载更多',
         loading: '努力加载中',
         nomore: '实在没有了'
-      },
+      }
     }
   },
-  mounted() {
+  computed:{
+    ...mapState({
+      logined: (state) => state.login.logined,
+      user: (state) => state.login.user,
+    })
+  },
+  created() {
     console.log("挂载前加载");
-    var that = this;
-    //物品
-    if(this.which=="goods"){
-      request('GET','/goods/getgoods',{location:'小区',kind:that.kind}).then((res)=>{
-        that.list.push(...res);
-        console.log(that.list);
-        that.data_count = res.length;
-        console.log(res.length);
-        that.addData();
-      })
-    }else{ //服务
-
-    }
-    this.addData();
+    this.loaddata();
     //将方法挂载在新对象
-    // this.$root.$on('addRandomData',this.addRandomData);
+    this.$root.$on('wallfallReload',this.reload);
   },
-  beforeDestroy(){
-    //解除绑定
-    // this.$root.$off('addRandomData');
+  watch:{
+    //监听距离的变化
+    dis:{
+      handler(){
+        this.loaddata();
+      }
+    }
   },
   methods: {
     addData() {
@@ -173,19 +171,50 @@ export default {
       }
 
       //模拟加载数据
-      setTimeout(() => {
-        for(let i = 0; i < length; i++) {
-          //调用api获取数据(根据下标)
+      for(let i = 0; i < length; i++) {
+        //调用api获取数据(根据下标)
 
-          // 先转成字符串再转成对象，避免数组对象引用导致数据混乱
-          let item = JSON.parse(JSON.stringify(this.list[this.load_index-length+i]));
-          item.id = this.$u.guid();
-          this.flowList.push(item);
-        };
-        this.loadStatus = 'loadmore';
-      }, 1000);
+        // 先转成字符串再转成对象，避免数组对象引用导致数据混乱
+        let item = JSON.parse(JSON.stringify(this.list[this.load_index-length+i]));
+        item.id = this.$u.guid();
+        this.flowList.push(item);
+      };
+      this.loadStatus = 'loadmore';
+    },
+    //加载数据
+    loaddata() {
+      var that = this;
+      //物品
+      console.log(this.location);
+      console.log(this.which);
+      console.log(this.dis);
+      console.log(this.kind);
+      console.log(this.dis);
+      console.log(this.longitude)
+      console.log(this.latitude)
 
+      //先清空列表
+      this.list.splice(0, this.list.length);
+      //加载数据
+      if (this.which == "goods") {
+        request('GET', '/goods/getgoods', {
+          location: this.location,
+          kind: this.kind,
+          community: this.user.community,
+          distance: this.dis,
+          longitude: this.longitude,
+          latitude: this.latitude
+        }).then((res) => {
+          if (res != 'Not Found') {
+            that.list.push(...res);
+            that.data_count = res.length;
+            that.addData();
+          }
+        })
+      } else { //服务
 
+      }
+      this.addData();
     }
   },
 }

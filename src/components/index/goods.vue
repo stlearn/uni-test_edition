@@ -67,7 +67,7 @@
               <!--物品代码-->
               <!--              无网络提示-->
               <u-no-network></u-no-network>
-              <wallfall :dis="dis[dis_index].label" :location="options_value"
+              <wallfall :dis="dis[dis_index].distance" :location="options_value"
                         which="goods" :kind="kinds[index].name" :sort="sort_value"></wallfall>
             </scroll-view>
           </swiper-item>
@@ -137,24 +137,30 @@ export default {
       dis:[
         {
           value:1,
-          label:"500m内"
+          label:"500m内",
+          distance:500
         },{
           value:2,
-          label:"1km内"
+          label:"1km内",
+          distance:1000
         },{
           value:3,
-          label:"2km内"
+          label:"2km内",
+          distance:2000
         },{
           value:4,
-          label:"3km内"
+          label:"3km内",
+          distance:3000
         },
         {
           value:5,
-          label:"5km内"
+          label:"5km内",
+          distance:5000
         },
         {
           value:6,
-          label:"10km内"
+          label:"10km内",
+          distance:10000
         }
       ],
       dis_index:0,
@@ -205,7 +211,8 @@ export default {
     //距离列选择器确定
     dis_confirm(v){
       this.dis_index = v[0].value-1;
-      console.log(v[0].value);
+      console.log(this.dis[this.dis_index].distance);
+      //修改数据
     },
   },
 };

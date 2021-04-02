@@ -48,9 +48,10 @@ export default {
 
       //已经登录，重复点击直接返回
       if (that.logined) {
+        console.log("已登录");
         return;
       }
-
+      console.log("login")
       uni.login({
         provider: "weixin",
         success: function (loginRes) {
