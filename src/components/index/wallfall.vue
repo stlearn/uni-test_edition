@@ -167,11 +167,6 @@ export default {
         this.loaddata();
       }
     },
-    user:{
-      handler(){
-        this.loaddata();
-      }
-    },
     community:{
       handler(){
         if(this.location=='小区'){

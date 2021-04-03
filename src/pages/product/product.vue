@@ -3,34 +3,39 @@
   <view class="container">
     <!--              无网络提示-->
     <u-no-network></u-no-network>
-    <view class="images">
-      <u-swiper :list="pictures" mode="number" indicator-pos="bottomRight" height="500"></u-swiper>
-    </view>
-    <view class="price" style="color: red;font-family: 'Helvetica Neue', Helvetica, sans-serif;font-size: 25px">￥{{goods.price}}</view>
-    <view class="title" style="font-family: 'Helvetica Neue', Helvetica, sans-serif;font-size: 18px">{{goods.name}}</view>
-    <view class="kind">分类:{{goods.kind}}</view>
-    <view class="description">物品介绍:<br/>{{goods.description}}</view>
-    <view class="under">
-      <view class="check">
-        <view class="seller">
-          <view class="avatar">
-            <u-image width="100%" height="100%" shape="circle" :src="owner.avatar"></u-image>
+    <block v-if="goods.saled==false">
+      <view class="images">
+        <u-swiper :list="pictures" mode="number" indicator-pos="bottomRight" height="500"></u-swiper>
+      </view>
+      <view class="price" style="color: red;font-family: 'Helvetica Neue', Helvetica, sans-serif;font-size: 25px">￥{{goods.price}}</view>
+      <view class="title" style="font-family: 'Helvetica Neue', Helvetica, sans-serif;font-size: 18px">{{goods.name}}</view>
+      <view class="kind">分类:{{goods.kind}}</view>
+      <view class="description">物品介绍:<br/>{{goods.description}}</view>
+      <view class="under">
+        <view class="check">
+          <view class="seller">
+            <view class="avatar">
+              <u-image width="100%" height="100%" shape="circle" :src="owner.avatar"></u-image>
+            </view>
+            <view class="name">
+              <view class="label">卖家:</view>
+              <view class="nikename">{{owner.name}}</view>
+            </view>
+            <view class="collect">
+              <u-icon name="star" color="#ff1744" size="50" v-if="collected===false" @click="collect"></u-icon>
+              <u-icon name="star-fill" color="#ff1744" size="50" v-if="collected===true" @click="uncollect"></u-icon>
+            </view>
           </view>
-          <view class="name">
-            <view class="label">卖家:</view>
-            <view class="nikename">{{owner.name}}</view>
+          <view class="option">
+            <view class="talk" @click="talk">联系卖家</view>
+            <view class="buy" @click="buy">购买</view>
           </view>
-          <view class="collect">
-            <u-icon name="star" color="#ff1744" size="50" v-if="collected===false" @click="collect"></u-icon>
-            <u-icon name="star-fill" color="#ff1744" size="50" v-if="collected===true" @click="uncollect"></u-icon>
-          </view>
-        </view>
-        <view class="option">
-          <view class="talk" @click="talk">联系卖家</view>
-          <view class="buy" @click="buy">购买</view>
         </view>
       </view>
-    </view>
+    </block>
+    <block v-else>
+      <view style="text-align: center">商品已经被出售</view>
+    </block>
   </view>
 </template>
 
@@ -46,7 +51,9 @@ export default {
       this.pictures=res.pictures;
       this.owner= res.owner;
     });
-
+    request('GET','/favorites/isfavorites',{goods_id:this.id}).then((res)=>{
+      this.collected = res;
+    });
   },
   data(){
     return{
@@ -75,10 +82,12 @@ export default {
     collect(){
       this.collected=true;
       uni.showToast({title:"收藏了"+this.goods.name,icon:"none"});
+      request('GET','/favorites/addfavorites',{goods_id:this.id});
     },
     uncollect(){
       this.collected=false;
       uni.showToast({title:"取消收藏了"+this.goods.name,icon:"none"});
+      request('GET','/favorites/removefavorites',{goods_id:this.id});
     }
   }
 }

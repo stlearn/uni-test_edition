@@ -29,6 +29,7 @@ export default {
 <style>
 .container {
   width: 750rpx;
+  min-height: 100vh;
   background: #eceff1;
   display: flex;
   flex-direction: column;

@@ -1,7 +1,7 @@
 <!--我的页面的商品展示卡片-->
 <!--suppress ALL -->
 <template>
-  <view class="contain">
+  <view class="contain" @click="toDetails">
     <view class="header">
       <view class="avatar">
         <u-image :src="goods.owner.avatar" width="100%" height="100%" shape="circle"></u-image>
@@ -37,7 +37,7 @@
 export default {
   props:{
     //父组件传递
-    productId:String,
+    productId:Number,
     father:String,
     goodss:Object
   },
@@ -47,6 +47,7 @@ export default {
   },
   data(){
     return{
+      id_:this.productId,
       goods:{
         id:"",
         title:"",
@@ -67,6 +68,15 @@ export default {
     },
     changePrice(){
       uni.showToast({title:"修改了价格："+this.goods.name+this.productId,icon:"none"});
+    },
+    toDetails(){
+      //收藏页才跳转
+      console.log("点击")
+      if(this.father=='favorites'){
+        uni.navigateTo({url:"/pages/product/product?id="+this.id_,fail:(res)=>{
+            console.log(res);
+        }});
+      }
     }
   }
 }
