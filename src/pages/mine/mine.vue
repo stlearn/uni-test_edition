@@ -74,7 +74,7 @@ export default {
   },
   methods: {
     navigate: function (str) {
-      if (!this.logined) {
+      if (this.logined) {
         uni.navigateTo({ url: "/pages/mine/" + str });
       } else {
         uni.showToast({

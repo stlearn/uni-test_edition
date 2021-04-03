@@ -13,11 +13,11 @@
     </view>
     <view class="content">
       <view class="image">
-        <u-image :src="goods.images[0]" width="100%" height="100%"></u-image>
+        <u-image :src="goods.imageUrl" width="100%" height="100%"></u-image>
       </view>
       <view class="other">
         <view class="title">
-          {{goods.title}}
+          {{goods.name}}
         </view>
         <view class="price" style="color: red;font-family: 'Helvetica Neue', Helvetica, sans-serif;font-size: 18px">
           ￥{{goods.price}}
@@ -33,51 +33,40 @@
 </template>
 
 <script>
+
 export default {
   props:{
     //父组件传递
     productId:String,
-    father:String
+    father:String,
+    goodss:Object
+  },
+  mounted() {
+    console.log(this.goodss);
+    this.goods = this.goodss;
   },
   data(){
     return{
-      // goods:{
-      //   id:"",
-      //   title:"",
-      //   description:"",
-      //   price:"",
-      //   images:new Array(),
-      //   owner:{
-      //     id:"",
-      //     name:"",
-      //     avatar:""
-      //   }
-      // }
-      //模拟数据
       goods:{
-        title:"键盘",
-        description: "这是我的键盘，特别好！这是我的键盘，特别好！这是我的键盘，特别好！这是我的键盘，特别好！这是我的键盘，特别好！这是我的键盘，特别好！这是我的键盘，特别好！这是我的键盘，特别好！这是我的键盘，特别好！这是我的键盘，特别好！这是我的键盘，特别好！这是我的键盘，特别好！这是我的键盘，特别好！这是我的键盘，特别好！这是我的键盘，特别好！这是我的键盘，特别好！这是我的键盘，特别好！这是我的键盘，特别好！这是我的键盘，特别好！",
-        price:"188.0",
-        kind:"电脑配件",
-        images: ["https://gss0.baidu.com/70cFfyinKgQFm2e88IuM_a/forum/w%3D580/sign=ab8d422bcf1349547e1ee86c664f92dd/5374b251f3deb48f79065b74f41f3a292cf578b8.jpg",
-          "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.mp.sohu.com%2Fupload%2F20170829%2Fbe48d4659c614339a73766a642e5a554_th.png&refer=http%3A%2F%2Fimg.mp.sohu.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1619433557&t=b0a66e36e5b35335f5c3cc89e636eedc",
-          "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.alicdn.com%2Fbao%2Fuploaded%2Fi1%2FTB2AN0Nv_tYBeNjy1XdXXXXyVXa_%21%210-rate.jpg&refer=http%3A%2F%2Fimg.alicdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1619433611&t=8c3d6b12a62b9ef1687beb494fa013f8"],
+        id:"",
+        title:"",
+        description:"",
+        price:"",
+        images:new Array(),
         owner:{
-          name:"骑猪上高速被拦了",
-          avatar:"https://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEJibET8hib64cbJVKVhkw6XEIIibcqbQrTJFYCGRyMHeYe9T0vHqYtGjGxbPLqVANC3GFzQYJkt3zc1A/132"
+          id:"",
+          name:"",
+          avatar:""
         }
       }
     }
   },
-  mounted() {
-    console.log(this.productId);
-  },
   methods:{
     down(){
-      uni.showToast({title:"下架了"+this.goods.title,icon:"none"});
+      uni.showToast({title:"下架了"+this.goods.name+this.productId,icon:"none"});
     },
     changePrice(){
-      uni.showToast({title:"修改了价格："+this.goods.title,icon:"none"});
+      uni.showToast({title:"修改了价格："+this.goods.name+this.productId,icon:"none"});
     }
   }
 }

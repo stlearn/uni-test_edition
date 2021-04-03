@@ -39,6 +39,9 @@ export default {
   },
   data(){
     return{
+      //经纬度信息
+      longitude:Number,
+      latitude:Number,
       //要展示的数据，后端请求来放里面
       list:new Array(),
       //存放数据展示的
@@ -134,19 +137,46 @@ export default {
     ...mapState({
       logined: (state) => state.login.logined,
       user: (state) => state.login.user,
+      community:(state) => state.login.user.community,
     })
   },
-  created() {
+  mounted() {
     console.log("挂载前加载");
     this.loaddata();
-    //将方法挂载在新对象
-    this.$root.$on('wallfallReload',this.reload);
+
+    //加载位置
+    if(this.location=='附近'){
+      var that= this;
+      uni.getLocation({
+        type: 'wgs84',
+        success: function (res) {
+          that.longitude = res.longitude;
+          that.latitude = res.latitude;
+          that.loaddata();
+        },
+        fail:()=>{
+          uni.showToast({title:"获取位置失败",icon:"none"});
+        }
+      });
+    }
   },
   watch:{
     //监听距离的变化
     dis:{
       handler(){
         this.loaddata();
+      }
+    },
+    user:{
+      handler(){
+        this.loaddata();
+      }
+    },
+    community:{
+      handler(){
+        if(this.location=='小区'){
+          this.loaddata();
+        }
       }
     }
   },
@@ -183,16 +213,10 @@ export default {
     },
     //加载数据
     loaddata() {
+      //清空展示
       var that = this;
       //物品
-      console.log(this.location);
-      console.log(this.which);
-      console.log(this.dis);
-      console.log(this.kind);
-      console.log(this.dis);
-      console.log(this.longitude)
-      console.log(this.latitude)
-
+      this.$refs.uWaterfall.clear();
       //先清空列表
       this.list.splice(0, this.list.length);
       //加载数据
@@ -205,16 +229,17 @@ export default {
           longitude: this.longitude,
           latitude: this.latitude
         }).then((res) => {
+          console.log(res);
           if (res != 'Not Found') {
             that.list.push(...res);
             that.data_count = res.length;
+            that.load_index = 0;
             that.addData();
           }
         })
       } else { //服务
 
       }
-      this.addData();
     }
   },
 }
