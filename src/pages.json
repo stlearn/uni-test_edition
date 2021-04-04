@@ -94,6 +94,12 @@
 			"style": {
 				"navigationBarTitleText":"商品详情"
 			}
+		},
+		{
+			"path": "pages/message/talk",
+			"style": {
+				"navigationBarTitleText":"聊天"
+			}
 		}
 	],
 	"globalStyle": {

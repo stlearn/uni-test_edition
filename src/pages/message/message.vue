@@ -1,48 +1,22 @@
 <!--suppress ALL -->
 <template>
   <view class="container">
-    <u-button @click="get()"> 获取位置 </u-button>
-    <u-button @click="getmore()"> 获取位置 </u-button>
-
-    <u-button @click="getdata()"> 获取数据 </u-button>
-    {{ response }}
+    <button @click="cli">跳转</button>
   </view>
 </template>
 
 <script>
 import getTestRes from "../../api/test/test";
 export default {
-  data() {
-    return {
-      response: "",
-    };
-  },
-  methods: {
-    getdata() {
-      getTestRes();
-    },
-    get() {
-      uni.getLocation({
-        type: "wgs84",
-        success: function (res) {
-          console.log(res);
-          console.log("当前位置的经度：" + res.longitude);
-          console.log("当前位置的纬度：" + res.latitude);
-        },
+  methods:{
+    cli(){
+      wx.setTabBarBadge({
+        index:2,
+        text:'5'
       });
-    },
-    getmore() {
-      uni.chooseLocation({
-        success: function (res) {
-          console.log(res);
-          console.log("位置名称：" + res.name);
-          console.log("详细地址：" + res.address);
-          console.log("纬度：" + res.latitude);
-          console.log("经度：" + res.longitude);
-        },
-      });
-    },
-  },
+      uni.navigateTo({url:'/pages/message/talk'});
+    }
+  }
 };
 </script>
 <style>
