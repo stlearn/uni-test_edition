@@ -9,7 +9,10 @@
       <view class="userId">
         {{goods.owner.name}}
       </view>
-      <view class="status">待售</view>
+      <view class="status" v-if="father=='onsale'">待售</view>
+      <view class="status" v-if="father=='sold'">已售出</view>
+      <view class="status" v-if="father=='buyed'">已买到</view>
+      <view class="status" v-if="father=='favorites'"></view>
     </view>
     <view class="content">
       <view class="image">
@@ -28,6 +31,9 @@
     <view class="footer">
       <view class="talk" v-if="father=='onsale'" @click="changePrice">改价</view>
       <view class="talk" v-if="father=='onsale'" @click="down">下架</view>
+      <view class="talk" v-if="father=='buyed'" @click="talkWithSeller">联系卖家</view>
+      <view class="talk" v-if="father=='buyed'" @click="review">评价</view>
+      <view class="talk" v-if="father=='sold'" @click="talkWithBuyer">联系买家</view>
     </view>
   </view>
 </template>
@@ -68,6 +74,15 @@ export default {
     },
     changePrice(){
       uni.showToast({title:"修改了价格："+this.goods.name+this.productId,icon:"none"});
+    },
+    talkWithSeller(){
+      uni.showToast({title:"跟卖家联系了："+this.goods.owner.name+this.goods.seller_id,icon:"none"});
+    },
+    review(){
+      uni.showToast({title:"评价了："+this.goods.name+this.productId,icon:"none"});
+    },
+    talkWithBuyer(){
+      uni.showToast({title:"跟买家联系了："+this.goods.buyer_id,icon:"none"});
     },
     toDetails(){
       //收藏页才跳转

@@ -33,6 +33,7 @@
         </view>
       </view>
     </block>
+<!--    商品已经被出售-->
     <block v-else>
       <view style="text-align: center">商品已经被出售</view>
     </block>
