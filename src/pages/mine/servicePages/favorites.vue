@@ -1,18 +1,38 @@
+<!--suppress ALL -->
 <template>
   <view class="container">
     <!--              无网络提示-->
     <u-no-network></u-no-network>
-    我在卖的 </view>
+    <product-card which="service" father="favorites" v-for="good in goods" :product-id="good.service_id" :goodss="good" :key="index"></product-card>
+  </view>
 </template>
 <script>
-export default {};
+import productCard from "../../../components/mine/productCard";
+import request from "../../../api/request";
+export default {
+  components:{
+    productCard
+  },
+  created() {
+    request('GET','/favorites/servicegetfavorites',{}).then((res)=>{
+      console.log(res);
+      this.goods = res;
+    });
+  },
+  data(){
+    return{
+      goods:Object
+    }
+  },
+};
 </script>
 <style>
 .container {
   width: 750rpx;
-  height: 100vh;
+  min-height: 100vh;
   background: #eceff1;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 </style>

@@ -31,7 +31,8 @@ export default {
     title:String,
     price:String,
     owner:String,
-    avatar:String
+    avatar:String,
+    which:String
   },
   data(){
     return{
@@ -40,7 +41,7 @@ export default {
   },
   methods:{
     toDetails(){
-      uni.navigateTo({url:"../../pages/product/product?id="+this.id_});
+      uni.navigateTo({url:"../../pages/product/product?id="+this.id_+"&which="+this.which});
     }
   }
 }

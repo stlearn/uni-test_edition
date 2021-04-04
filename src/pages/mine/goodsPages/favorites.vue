@@ -3,7 +3,7 @@
   <view class="container">
     <!--              无网络提示-->
     <u-no-network></u-no-network>
-    <product-card father="favorites" v-for="good in goods" :product-id="good.goods_id" :goodss="good" :key="index"></product-card>
+    <product-card father="favorites" which="goods" v-for="good in goods" :product-id="good.goods_id" :goodss="good" :key="index"></product-card>
   </view>
 </template>
 <script>

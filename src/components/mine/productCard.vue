@@ -12,6 +12,7 @@
       <view class="status" v-if="father=='onsale'">待售</view>
       <view class="status" v-if="father=='sold'">已售出</view>
       <view class="status" v-if="father=='buyed'">已买到</view>
+      <view class="status" v-if="father=='used'">使用过</view>
       <view class="status" v-if="father=='favorites'"></view>
     </view>
     <view class="content">
@@ -33,7 +34,10 @@
       <view class="talk" v-if="father=='onsale'" @click="down">下架</view>
       <view class="talk" v-if="father=='buyed'" @click="talkWithSeller">联系卖家</view>
       <view class="talk" v-if="father=='buyed'" @click="review">评价</view>
+      <view class="talk" v-if="father=='used'" @click="talkWithSeller">联系卖家</view>
+      <view class="talk" v-if="father=='used'" @click="review">评价</view>
       <view class="talk" v-if="father=='sold'" @click="talkWithBuyer">联系买家</view>
+      <view class="talk" v-if="father=='favorites'">去看看</view>
     </view>
   </view>
 </template>
@@ -43,6 +47,8 @@
 export default {
   props:{
     //父组件传递
+    //goods or service
+    which:String,
     productId:Number,
     father:String,
     goodss:Object
@@ -88,7 +94,7 @@ export default {
       //收藏页才跳转
       console.log("点击")
       if(this.father=='favorites'){
-        uni.navigateTo({url:"/pages/product/product?id="+this.id_,fail:(res)=>{
+        uni.navigateTo({url:"/pages/product/product?id="+this.id_+"&which="+this.which,fail:(res)=>{
             console.log(res);
         }});
       }

@@ -1,18 +1,35 @@
 <template>
   <view>
+  <view v-if="which=='goods'">
     <u-waterfall v-model="flowList" ref="uWaterfall">
       <template v-slot:left="{leftList}">
         <view class="demo-warter" v-for="(item, index) in leftList" :key="index">
-          <item-card :goods-id="item.goods_id" :img="item.imageUrl" :title="item.name" :owner="item.owner" :avatar="item.avatar" :price="item.price"></item-card>
+          <item-card which="goods" :goods-id="item.goods_id" :img="item.imageUrl" :title="item.name" :owner="item.owner" :avatar="item.avatar" :price="item.price"></item-card>
         </view>
       </template>
       <template v-slot:right="{rightList}">
         <view class="demo-warter" v-for="(item, index) in rightList" :key="index">
-          <item-card :goods-id="item.goods_id" :img="item.imageUrl" :title="item.name" :owner="item.owner" :avatar="item.avatar" :price="item.price"></item-card>
+          <item-card which="goods" :goods-id="item.goods_id" :img="item.imageUrl" :title="item.name" :owner="item.owner" :avatar="item.avatar" :price="item.price"></item-card>
         </view>
       </template>
     </u-waterfall>
     <u-loadmore bg-color="rgb(240, 240, 240)" :status="loadStatus" :icon-type="loadIconType" :load-text="loadText" @loadmore="addData"></u-loadmore>
+  </view>
+  <view v-if="which=='service'">
+    <u-waterfall v-model="flowList" ref="uWaterfall">
+      <template v-slot:left="{leftList}">
+        <view class="demo-warter" v-for="(item, index) in leftList" :key="index">
+          <item-card which="service" :goods-id="item.service_id" :img="item.imageUrl" :title="item.name" :owner="item.owner" :avatar="item.avatar" :price="item.price"></item-card>
+        </view>
+      </template>
+      <template v-slot:right="{rightList}">
+        <view class="demo-warter" v-for="(item, index) in rightList" :key="index">
+          <item-card which="service" :goods-id="item.service_id" :img="item.imageUrl" :title="item.name" :owner="item.owner" :avatar="item.avatar" :price="item.price"></item-card>
+        </view>
+      </template>
+    </u-waterfall>
+    <u-loadmore bg-color="rgb(240, 240, 240)" :status="loadStatus" :icon-type="loadIconType" :load-text="loadText" @loadmore="addData"></u-loadmore>
+  </view>
   </view>
 </template>
 
@@ -233,7 +250,22 @@ export default {
           }
         })
       } else { //服务
-
+        request('GET', '/service/getservices', {
+          location: this.location,
+          kind: this.kind,
+          community: this.user.community,
+          distance: this.dis,
+          longitude: this.longitude,
+          latitude: this.latitude
+        }).then((res) => {
+          console.log(res);
+          if (res != 'Not Found') {
+            that.list.push(...res);
+            that.data_count = res.length;
+            that.load_index = 0;
+            that.addData();
+          }
+        })
       }
     }
   },

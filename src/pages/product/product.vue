@@ -3,7 +3,7 @@
   <view class="container">
     <!--              无网络提示-->
     <u-no-network></u-no-network>
-    <block v-if="goods.saled==false">
+    <block>
       <view class="images">
         <u-swiper :list="pictures" mode="number" indicator-pos="bottomRight" height="500"></u-swiper>
       </view>
@@ -34,9 +34,9 @@
       </view>
     </block>
 <!--    商品已经被出售-->
-    <block v-else>
-      <view style="text-align: center">商品已经被出售</view>
-    </block>
+<!--    <block v-else>-->
+<!--      <view style="text-align: center">商品已经被出售</view>-->
+<!--    </block>-->
   </view>
 </template>
 
@@ -45,21 +45,36 @@ import request from "../../api/request";
 export default {
   onLoad(options){
     this.id = options.id;
+    this.which = options.which;
     console.log(options.id);
+    console.log(options.which);
     //加载数据
-    request('GET','/goods/getgoodsdetail',{goods_id:this.id}).then((res)=>{
-      this.goods=res.goods;
-      this.pictures=res.pictures;
-      this.owner= res.owner;
-    });
-    request('GET','/favorites/isfavorites',{goods_id:this.id}).then((res)=>{
-      this.collected = res;
-    });
+    //商品详情
+    if(this.which=='goods'){
+      request('GET','/goods/getgoodsdetail',{goods_id:this.id}).then((res)=>{
+        this.goods=res.goods;
+        this.pictures=res.pictures;
+        this.owner= res.owner;
+      });
+      request('GET','/favorites/isfavorites',{goods_id:this.id}).then((res)=>{
+        this.collected = res;
+      });
+    }else{ //服务详情
+      request('GET','/service/getservicedetails',{service_id:this.id}).then((res)=>{
+        this.goods=res.goods;
+        this.pictures=res.pictures;
+        this.owner= res.owner;
+      });
+      request('GET','/favorites/serviceisfavorites',{goods_id:this.id}).then((res)=>{
+        this.collected = res;
+      });
+    }
   },
   data(){
     return{
       //产品id,onLoad传入
       id:Number,
+      which:String,
 
       //后台返回的数据
       goods:null,
@@ -82,13 +97,23 @@ export default {
     },
     collect(){
       this.collected=true;
-      uni.showToast({title:"收藏了"+this.goods.name,icon:"none"});
-      request('GET','/favorites/addfavorites',{goods_id:this.id});
+      if(this.which=='goods'){
+        uni.showToast({title:"收藏了"+this.goods.goods_id,icon:"none"});
+        request('GET','/favorites/addfavorites',{goods_id:this.id});
+      }else{ //服务详情
+        uni.showToast({title:"收藏了"+this.goods.service_id,icon:"none"});
+        request('GET','/favorites/serviceaddfavorites',{goods_id:this.id});
+      }
     },
     uncollect(){
       this.collected=false;
-      uni.showToast({title:"取消收藏了"+this.goods.name,icon:"none"});
-      request('GET','/favorites/removefavorites',{goods_id:this.id});
+      if(this.which=='goods'){
+        uni.showToast({title:"取消收藏了"+this.goods.goods_id,icon:"none"});
+        request('GET','/favorites/removefavorites',{goods_id:this.id});
+      }else{ //服务详情
+        uni.showToast({title:"取消收藏了"+this.goods.service_id,icon:"none"});
+        request('GET','/favorites/serviceremovefavorites',{goods_id:this.id});
+      }
     }
   }
 }
