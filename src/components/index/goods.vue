@@ -15,7 +15,6 @@
       <view class="option_search">
         <u-search
           placeholder="请输入关键词"
-          v-model="search_keyword"
           :show-action="true"
           action-text="搜索"
           :animation="true"
@@ -49,7 +48,7 @@
 <!--              无网络提示-->
               <u-no-network></u-no-network>
               <wallfall :dis="dis[dis_index].label" :location="options_value"
-                        which="goods" :kind="kinds[index].name" :sort="sort_value"></wallfall>
+                        which="goods" :kind="kinds[index].name" :sort="sort_value" :search_key="search_keyword"></wallfall>
             </scroll-view>
           </swiper-item>
         </swiper>
@@ -68,7 +67,7 @@
               <!--              无网络提示-->
               <u-no-network></u-no-network>
               <wallfall :dis="dis[dis_index].distance" :location="options_value"
-                        which="goods" :kind="kinds[index].name" :sort="sort_value"></wallfall>
+                        which="goods" :kind="kinds[index].name" :sort="sort_value" :search_key="search_keyword"></wallfall>
             </scroll-view>
           </swiper-item>
         </swiper>
@@ -178,7 +177,8 @@ export default {
     },
     //处理搜索事件value就是搜索字符串
     search(value) {
-      console.log(value);
+      this.search_keyword=value;
+      console.log(this.search_keyword)
     },
 
 

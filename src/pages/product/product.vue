@@ -91,9 +91,11 @@ export default {
   methods:{
     talk(){
       uni.showToast({title:"talk whith"+this.owner.id,icon:"none"});
+      uni.navigateTo({url:"../../pages/message/talk?message=我对你的"+this.goods.name+"很感兴趣!"});
     },
     buy(){
       uni.showToast({title:"买了"+this.goods.name,icon:"none"});
+      uni.navigateTo({url:"../../pages/message/talk?message=我购买了你的"+this.goods.name+",我们商量一下交货地点吧！"+"&sender=0"});
     },
     collect(){
       this.collected=true;

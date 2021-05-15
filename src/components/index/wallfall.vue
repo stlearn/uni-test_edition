@@ -50,6 +50,8 @@ export default {
     sort:String,
     //物品类别
     kind:String,
+    //搜索关键词
+    search_key:String
   },
   components:{
     itemCard
@@ -181,6 +183,7 @@ export default {
     //监听距离的变化
     dis:{
       handler(){
+        console.log("变了")
         this.loaddata();
       }
     },
@@ -189,6 +192,11 @@ export default {
         if(this.location=='小区'){
           this.loaddata();
         }
+      }
+    },
+    search_key:{
+      handler(){
+        this.loaddata();
       }
     }
   },
@@ -239,7 +247,8 @@ export default {
           community: this.user.community,
           distance: this.dis,
           longitude: this.longitude,
-          latitude: this.latitude
+          latitude: this.latitude,
+          search_key:this.search_key
         }).then((res) => {
           console.log(res);
           if (res != 'Not Found') {
@@ -256,7 +265,8 @@ export default {
           community: this.user.community,
           distance: this.dis,
           longitude: this.longitude,
-          latitude: this.latitude
+          latitude: this.latitude,
+          search_key:this.search_key
         }).then((res) => {
           console.log(res);
           if (res != 'Not Found') {

@@ -23,9 +23,22 @@
 </template>
 
 <script>
+import request from "../../api/request";
+
 export default {
+  onLoad:function (option){
+    this.message = option.message
+    this.sender = option.sender;
+    //获取消息
+    request('GET',"/getmessages",{sender:this.sender});
+    if(sender==31){
+
+    }
+  },
   data() {
     return {
+      sender:0,
+      message:String,
       talkList:[],
       ajax:{
         rows:20,	//每页数量
@@ -105,25 +118,74 @@ export default {
       let join = ()=>{
         let arr = [];
 
-        //通过当前页码及页数，模拟数据内容
-        let startIndex = (this.ajax.page-1) * this.ajax.rows;
-        let endIndex = startIndex + this.ajax.rows;
-        for(let i = startIndex; i < endIndex; i++){
+        // //通过当前页码及页数，模拟数据内容
+        // let startIndex = (this.ajax.page-1) * this.ajax.rows;
+        // let endIndex = startIndex + this.ajax.rows;
+        // for(let i = startIndex; i < endIndex; i++){
+        //
+        // }
+        //
+        // /*
+        //   颠倒数组中元素的顺序。将最新的数据排在本次接口返回数据的最后面。
+        //   后端接口按 消息的时间降序查找出当前页的数据后，再将本页数据按消息时间降序排序返回。
+        //   这是数据的重点，因为页面滚动条和上拉加载历史的问题。
+        //  */
+        // arr.reverse();
+
+        if(this.sender==0){
           arr.push({
-            "id":i,	// 消息的ID
-            "content":`这是历史记录的第${i+1}条消息`,	// 消息内容
-            "type":Math.random() > 0.5 ? 1 : 0	,// 此为消息类别，设 1 为发出去的消息，0 为收到对方的消息,
-            "pic":"/static/logo.png"	// 头像
+            "id":1,	// 消息的ID
+            "content":"你好，我对你的iphone12很感兴趣！",	// 消息内容
+            "type":0,// 此为消息类别，设 1 为发出去的消息，0 为收到对方的消息,
+            "pic":"https://img2.woyaogexing.com/2021/05/14/9f0ce549d20e404cb3d2afe998e1cec4!400x400.jpeg"	// 头像
+          });
+          arr.push({
+            "id":2,	// 消息的ID
+            "content":"在吗？",	// 消息内容
+            "type":0,// 此为消息类别，设 1 为发出去的消息，0 为收到对方的消息,
+            "pic":"https://img2.woyaogexing.com/2021/05/14/9f0ce549d20e404cb3d2afe998e1cec4!400x400.jpeg"	// 头像
+          });
+          arr.push({
+            "id":3,	// 消息的ID
+            "content":"在的",	// 消息内容
+            "type":1,// 此为消息类别，设 1 为发出去的消息，0 为收到对方的消息,
+            "pic":"https://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEJibET8hib64cbJVKVhkw6XEIIibcqbQrTJFYCGRyMHeYe9T0vHqYtGjGxbPLqVANC3GFzQYJkt3zc1A/132"	// 头像
+          })
+          arr.push({
+            "id":4,	// 消息的ID
+            "content":this.message,	// 消息内容
+            "type":1,// 此为消息类别，设 1 为发出去的消息，0 为收到对方的消息,
+            "pic":"https://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEJibET8hib64cbJVKVhkw6XEIIibcqbQrTJFYCGRyMHeYe9T0vHqYtGjGxbPLqVANC3GFzQYJkt3zc1A/132"	// 头像
           })
         }
-
-        /*
-          颠倒数组中元素的顺序。将最新的数据排在本次接口返回数据的最后面。
-          后端接口按 消息的时间降序查找出当前页的数据后，再将本页数据按消息时间降序排序返回。
-          这是数据的重点，因为页面滚动条和上拉加载历史的问题。
-         */
-        arr.reverse();
-
+        if(this.sender==32){
+          arr.push({
+            "id":1,	// 消息的ID
+            "content":"你好，我对你的iphone12很感兴趣！",	// 消息内容
+            "type":0,// 此为消息类别，设 1 为发出去的消息，0 为收到对方的消息,
+            "pic":"https://img2.woyaogexing.com/2021/05/14/9f0ce549d20e404cb3d2afe998e1cec4!400x400.jpeg"	// 头像
+          });
+          arr.push({
+            "id":2,	// 消息的ID
+            "content":"在吗？",	// 消息内容
+            "type":0,// 此为消息类别，设 1 为发出去的消息，0 为收到对方的消息,
+            "pic":"https://img2.woyaogexing.com/2021/05/14/9f0ce549d20e404cb3d2afe998e1cec4!400x400.jpeg"	// 头像
+          });
+        }
+        if(this.sender==33){
+          arr.push({
+            "id":1,	// 消息的ID
+            "content":"你好，我对你的ipods很感兴趣！",	// 消息内容
+            "type":0,// 此为消息类别，设 1 为发出去的消息，0 为收到对方的消息,
+            "pic":"https://img2.woyaogexing.com/2021/05/14/7bf65410914d46b6957151f47c140914!400x400.jpeg"	// 头像
+          });
+          arr.push({
+            "id":2,	// 消息的ID
+            "content":"能便宜一点吗？",	// 消息内容
+            "type":0,// 此为消息类别，设 1 为发出去的消息，0 为收到对方的消息,
+            "pic":"https://img2.woyaogexing.com/2021/05/14/7bf65410914d46b6957151f47c140914!400x400.jpeg"	// 头像
+          });
+        }
         return arr;
       }
 
@@ -179,7 +241,7 @@ export default {
           "id":new Date().getTime(),
           "content":this.content,
           "type":1,
-          "pic":"/static/logo.png"
+          "pic":"https://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaEJibET8hib64cbJVKVhkw6XEIIibcqbQrTJFYCGRyMHeYe9T0vHqYtGjGxbPLqVANC3GFzQYJkt3zc1A/132"	// 头像
         }
         this.talkList.push(data);
 

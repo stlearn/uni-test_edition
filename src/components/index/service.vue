@@ -49,7 +49,7 @@
               <!--              无网络提示-->
               <u-no-network></u-no-network>
               <wallfall :dis="dis[dis_index].label" :location="options_value"
-                        which="service" :kind="kinds[index].name" :sort="sort_value"></wallfall>
+                        which="service" :kind="kinds[index].name" :sort="sort_value" :search_key="search_keyword"></wallfall>
             </scroll-view>
           </swiper-item>
         </swiper>
@@ -68,7 +68,7 @@
               <!--              无网络提示-->
               <u-no-network></u-no-network>
               <wallfall :dis="dis[dis_index].distance" :location="options_value"
-                        which="service" :kind="kinds[index].name" :sort="sort_value"></wallfall>
+                        which="service" :kind="kinds[index].name" :sort="sort_value" :search_key="search_keyword"></wallfall>
             </scroll-view>
           </swiper-item>
         </swiper>
